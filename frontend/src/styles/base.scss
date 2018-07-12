@@ -1,0 +1,95 @@
+body, html {
+  height: 100%;
+}
+
+body {
+  background-image: url('../assets/background.png');
+  background-size: cover;
+  color: white;
+}
+
+.md-card {
+  background-color: rgba(0,0,0,0.7);
+  padding: 8px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+  .content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.layout-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.layout-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@mixin layout-justify($dir) {
+  &-start {
+    align-items: $dir;
+    justify-content: flex-start;
+  }
+  &-end {
+    align-items: $dir;
+    justify-content: flex-end;
+  }
+  &-center {
+    align-items: $dir;
+    justify-content: center;
+  }
+  &-between {
+    align-items: $dir;
+    justify-content: space-between;
+  }
+  &-around {
+    align-items: $dir;
+    justify-content: space-around;
+  }
+}
+
+.layout-start {
+  @include layout-justify(flex-start);
+}
+
+.layout-end {
+  @include layout-justify(flex-end);
+}
+
+.layout-stretch {
+  @include layout-justify(stretch);
+}
+
+.layout-center {
+  @include layout-justify(center);
+}
+
+.layout-baseline {
+  @include layout-justify(baseline);
+}
+
+.flex-100 {
+  flex-grow: 1;
+}
+
+.flex-none {
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.layout-padding {
+  padding: 8px;
+}

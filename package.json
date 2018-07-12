@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "backend": "cd backend && start cmd /k yarn dev",
+    "frontend": "cd frontend && start cmd /k yarn dev",
+    "dev": "concurrent --kill-others \"yarn backend\" \"yarn frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^3.6.0"
+  },
+  "dependencies": {}
+}
