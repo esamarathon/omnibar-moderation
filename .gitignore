@@ -61,7 +61,6 @@ typings/
 .next
 
 .vs
-rethinkdb_data
-rethinkdb.bat
+state.json
 settings.json
 settings.backend.json
