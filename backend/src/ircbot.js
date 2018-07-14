@@ -79,8 +79,7 @@ export default class IRCBot extends EventEmitter {
         id: `${event.room_id}`,
         name: event.channel.replace('#', '')
       },
-      decisions: {
-      }
+      decisions: []
     });
   }
 
@@ -119,8 +118,7 @@ export default class IRCBot extends EventEmitter {
         id: `${event.room_id}`,
         name: event.channel.replace('#', '')
       },
-      decisions: {
-      }
+      decisions: []
     });
   }
 
@@ -164,8 +162,7 @@ export default class IRCBot extends EventEmitter {
         id: `${event.room_id}`,
         name: event.channel.replace('#', '')
       },
-      decisions: {
-      }
+      decisions: []
     });
   }
 }

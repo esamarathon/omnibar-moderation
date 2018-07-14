@@ -1,13 +1,12 @@
 import logger from './logger';
 import { decodeToken } from './auth';
-import { twitchGet, checkModStatus } from './twitchAPI';
+import { checkModStatus } from './twitchAPI';
 
 export default class Client {
   constructor(server, connection) {
     this.server = server;
     this.connection = connection;
     this.user = null;
-    this.auth = null;
   }
 
   async handleMessage(message) {
@@ -18,8 +17,8 @@ export default class Client {
     const modStatus = await this.isMod();
     console.log('Mod status: ', modStatus);
     if (modStatus) {
-      if (message.command === 'approve' || message.command === 'deny') {
-        return this.moderate(message.id, message.command);
+      if (message.command === 'moderate') {
+        return this.moderate(message.id, message.decision);
       }
       logger.error(`Unknown command ${message.command}`, message);
 
@@ -33,37 +32,27 @@ export default class Client {
     return this.user && checkModStatus(this.user);
   }
 
-  async moderate(action, id) {
-    this.server.moderate(id, this.user, action);
+  async moderate(id, action) {
+    return this.server.moderate(id, this.user, action);
   }
 
   async authenticate(message) {
     if (message.token) {
       const payload = decodeToken(message.token);
-      if (payload.auth) {
+      if (payload.user) {
         // validate the login
         try {
-          const authenticationResponse = await twitchGet('https://id.twitch.tv/oauth2/validate', null, payload.auth.token);
-          logger.debug('Validation result:', authenticationResponse.body);
-          if (authenticationResponse.body.user_id) {
-            this.user = {
-              name: authenticationResponse.body.login,
-              id: authenticationResponse.body.user_id
-            };
-            this.auth = payload.auth;
-            // check mod status
-            logger.debug('Starting mod check');
-            const modStatus = await this.isMod();
-            if (modStatus) {
-              // send the client the current state
-              this.connection.send(JSON.stringify({ command: 'state', data: this.server.state.state }));
-            } else {
-              logger.warn('Non-mod connection attempt!', this.user);
-            }
-          } else {
-            logger.error('Invalid authentication!');
-          }
+          logger.debug('Starting mod check');
           this.user = payload.user;
+          const modStatus = await this.isMod();
+          if (modStatus) {
+            // send the client the current state
+            this.connection.send(JSON.stringify({ command: 'status', status: modStatus }));
+            this.connection.send(JSON.stringify({ command: 'state', data: this.server.state.state }));
+          } else {
+            this.connection.send(JSON.stringify({ command: 'status', error: 'Not a moderator.' }));
+            logger.warn('Non-mod connection attempt!', payload.user);
+          }
         } catch (err) {
           logger.error(err);
         }

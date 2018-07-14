@@ -32,5 +32,9 @@
   "persistentState": "state/state.json",
   "extend": {
     "backend": "settings.backend.json"
+  },
+  "moderation": {
+    "expirationTime": 3600000,
+    "gracePeriod": 30000
   }
 }

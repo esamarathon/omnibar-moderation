@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { getUser } from '../twitch';
+import './queueItem.scss';
 
 export default {
   name: 'QueueItem',
@@ -14,15 +15,22 @@ export default {
     });
   },
   methods: {
+    moderate (decision, ...args) {
+      console.log('decision param:', decision);
+      console.log('Other args:', args);
+      this.$emit('moderate', {
+        item: this.itemInfo,
+        decision
+      });
+    }
   },
   props: {
-    itemInfo: Object
+    itemInfo: Object,
+    status: Object
   },
   computed: {
     sortedDecisions () {
-      const result = _.sortBy(_.map(this.itemInfo.decisions, (decision, user) => {
-        return _.merge({}, decision, {user});
-      }), 'action');
+      const result = _.sortBy(this.itemInfo.decisions, 'action');
       console.log('Sorted decisions: ', result);
       return result;
     }

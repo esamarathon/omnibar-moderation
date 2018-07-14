@@ -64,8 +64,7 @@ const getModListThrottled = throttleAsync(getModList, 30000);
 export async function checkModStatus(user) {
   const adminStatus = _.find(settings.admins, { id: user.id });
   if (adminStatus) {
-    logger.debug('Admin detected:', adminStatus);
-    return adminStatus;
+    return _.merge({ admin: true }, adminStatus);
   }
   logger.debug('Getting mod status for ', user);
   const modList = await getModListThrottled(true);

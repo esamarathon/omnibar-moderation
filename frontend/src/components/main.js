@@ -16,6 +16,7 @@ export default {
     return {
       auth: null,
       user: null,
+      status: null,
       state: new State()
     };
   },
@@ -39,7 +40,13 @@ export default {
     }
     if (!this.user) {
       this.$router.push({ name: 'Login' });
-      
+    }
+  },
+  async destroyed () {
+    if (this.ws) {
+      console.log('Reloading main component, not reconnecting websocket!');
+      this.ws.close();
+      this.reconnect = 'dont';
     }
   },
   methods: {
@@ -47,7 +54,7 @@ export default {
       try {
         const userResult = await getUser(this.user);
         this.user.displayName = userResult.display_name;
-        this.user.logo = userResult.profile_image_url;
+        this.user.logo = userResult.logo;
         console.log(this.user);
         return userResult;
       } catch (err) {
@@ -67,18 +74,22 @@ export default {
       this.ws = new WebSocket(url);
       this.ws.addEventListener('open', () => {
         console.log('Connected to WS');
+        this.reconnect = null;
         this.ws.send(JSON.stringify({
-          'command': 'auth',
-          'token': this.jwt
+          command: 'auth',
+          token: this.jwt
         }));
       });
       this.ws.addEventListener('error', err => {
         console.error(err);
-        this.connectWS();
       });
       this.ws.addEventListener('close', err => {
-        console.log('Disconnected from WS', err);
-        // this.connectWS();
+        console.error('Disconnected from WS', err);
+        if (!this.reconnect) {
+          this.reconnect = setTimeout(() => {
+            this.connectWS();
+          }, 1000);
+        }
       });
       this.ws.addEventListener('message', event => {
         console.log('WS message:', event);
@@ -88,8 +99,22 @@ export default {
           console.log('State initiated');
         } else if (data.command === 'mutation') {
           this.state.apply(data.mutation);
+        } else if (data.command === 'status') {
+          if (data.error) {
+            this.$router.push({ name: 'Login', params: {error: data.error} });
+          } else {
+            this.status = data.status;
+          }
         }
       });
+    },
+    moderate (data) {
+      console.log('Sending moderation event:', data);
+      this.ws.send(JSON.stringify({
+        command: 'moderate',
+        id: data.item.id,
+        decision: data.decision
+      }));
     }
   }
 };

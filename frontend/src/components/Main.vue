@@ -20,9 +20,13 @@
         </md-menu>
       </div>
     </div>
-    <div class="layout-column layout-stretch-start layout-padding item-list">
-      <queue-item :item-info="item" v-for="item in state.state.moderationQueue" :key="item.id">
-      </queue-item>
+    <div class="layout-column layout-stretch-start layout-padding item-list flex-100">
+      <virtual-list :size="111" :remain="15">
+        <transition-group name="moderation-queue">
+          <queue-item class="moderation-queue-item" :item-info="item" :status="status" v-for="item in state.state.moderationQueue" :key="item.id" @moderate="moderate">
+          </queue-item>
+        </transition-group>
+      </virtual-list>
     </div>
   </div>
 </template>
@@ -49,5 +53,24 @@
 
 .item-list {
   overflow-y: auto;
+}
+
+.moderation-queue-item {
+  transition: all 1s;
+  height: 111px;
+  overflow-y: hidden;
+}
+
+.moderation-queue-enter, .moderation-queue-leave-to {
+  opacity: 0;
+}
+
+.moderation-queue-leave-to {
+  height: 0px;
+  margin-bottom: 0;
+}
+
+.moderation-queue-leave-active {
+  /* position: absolute;*/
 }
 </style>

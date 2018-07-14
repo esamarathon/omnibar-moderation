@@ -25,12 +25,7 @@ export default class State {
         target.push(_.merge({}, mutation.defaults, mutation.data));
       }
     } else if (mutation.type === 'delete') {
-      const target = _.get(this.state, mutation.target, []);
-      if (mutation.selector) {
-        removeAt(target, mutation.selector);
-      } else {
-        removeAt(target, mutation.target);
-      }
+      removeAt(this.state, mutation.target);
     } else {
       throw new Error(`Invalid mutation type ${JSON.stringify(mutation)}`);
     }

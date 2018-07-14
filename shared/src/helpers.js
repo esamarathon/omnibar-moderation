@@ -28,7 +28,7 @@ export function throttleAsync(func, duration) {
 /** queries a path against an object
  * the path can either be a dot-seperated string of property names or a list of strings or objects
  * strings denote object dereferences, objects search by example for items in a collection
- * callback is called with (object, value, lastStep) when the last item is found, where value === object[lastStep]
+ * callback is called with (object, value, lastStep) when the last item is found, where getAt(object, path) === object[lastStep]
  * Example usage with helpers (see below):
  * - getAt({foo:["bar","baz"]}, "foo.1") == "baz"
  * - getAt({foo:[{name: "bar", value: 5},{name: "baz", value: 7}]}, ["foo",{name: "bar"}]) == {name: "bar", value: 5}
@@ -38,13 +38,13 @@ export function queryObject(object, path, callback) {
   let _path = path;
   if (_.isString(path)) _path = path.split('.');
   _.each(_path.slice(0, -1), step => {
-    if (!_object) return;
-    if (_.isString(step)) {
+    if (!_object) throw new Error('Item not found');
+    if (_.isString(step) || _.isInteger(step)) {
       _object = _object[step];
     } else if (_.isObject(step)) {
       _object = _.find(_object, step);
     } else {
-      throw new Error('Illegal path', path);
+      throw new Error('Illegal path');
     }
   });
 
@@ -53,8 +53,8 @@ export function queryObject(object, path, callback) {
   let lastStep = _path[_path.length - 1];
   if (_.isObject(lastStep)) {
     lastStep = _.findKey(_object, lastStep);
-  } else if (!_.isString(lastStep)) {
-    throw new Error('Illegal path', path);
+  } else if (!_.isString(lastStep) && !_.isInteger(lastStep)) {
+    throw new Error('Illegal path');
   }
   if (callback) callback(_object, _object[lastStep], lastStep);
 
@@ -63,11 +63,11 @@ export function queryObject(object, path, callback) {
 }
 
 export function getAt(object, path, def) {
-  let result;
+  let result = def;
   queryObject(object, path, (obj, val) => {
     result = val;
   });
-  return result || def;
+  return result;
 }
 
 export function setAt(object, path, value) {

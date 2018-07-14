@@ -7,7 +7,8 @@ import logger from './logger';
 import settings from './settings';
 import Client from './client';
 import IRCBot from './ircbot';
-import { app, server } from './api';
+import { app } from './api';
+import { getAt } from '../../shared/src/helpers';
 
 const persistentPath = settings.persistentState;
 function persistState(data) {
@@ -17,13 +18,20 @@ function persistState(data) {
 }
 const persistStateThrottled = _.throttle(persistState, 1000);
 
+const voteWeights = {
+  approve: 1,
+  deny: -1,
+  veto: -1000,
+  force: 1000
+};
+
 export default class Server {
   constructor() {
     this.clients = [];
     this.ircbot = new IRCBot();
     this.runServer();
     this.ircbot.on('event', event => {
-      event.duration = 3600000; // 86400000;
+      event.duration = settings.moderation.expirationTime;
       event.expires = Date.now() + event.duration;
       this.apply({
         type: 'push',
@@ -42,6 +50,10 @@ export default class Server {
         logger.warn('Couldnt load persistent state from ', persistentPath);
       }
     }
+
+    setInterval(() => {
+      this.cleanse();
+    }, 1000);
   }
 
   runServer() {
@@ -75,10 +87,56 @@ export default class Server {
   }
 
   moderate(id, user, action) {
+    logger.info(`Moderating item ${id} with user `, user, action);
+    console.log('decisions query:', getAt(this.state.state, ['moderationQueue', { id }, 'decisions']));
+    if (_.isEmpty(getAt(this.state.state, ['moderationQueue', { id }, 'decisions']))) {
+      console.log('duration update');
+      this.apply({
+        type: 'set',
+        target: ['moderationQueue', { id }, 'duration'],
+        data: settings.moderation.gracePeriod
+      });
+      console.log('expires update');
+      this.apply({
+        type: 'set',
+        target: ['moderationQueue', { id }, 'expires'],
+        data: Date.now() + settings.moderation.gracePeriod
+      });
+    }
+    console.log('decisions update');
     this.apply({
-      type: 'set',
-      target: ['moderationQueue', { id }, 'decisions', user],
-      data: action
+      type: 'insert',
+      target: ['moderationQueue', { id }, 'decisions'],
+      selector: [{ user: { id: user.id } }],
+      defaults: { user },
+      data: { action }
+    });
+  }
+
+  // removes expired events, triggers accepted events.
+  cleanse() {
+    _.each(this.state.state.moderationQueue, queueItem => {
+      if (Date.now() > queueItem.expires) {
+        console.log('Counting votes for ', queueItem);
+        const votes = _.reduce(queueItem.decisions, (res, decision) => {
+          res += voteWeights[decision.action];
+          return res;
+        }, 0);
+        logger.info('Votes:', votes);
+        if (votes > 0) {
+          logger.info('Accepting event', queueItem);
+        } else {
+          logger.info('Denying event', queueItem);
+        }
+        setTimeout(
+          () => {
+            this.apply({
+              type: 'delete',
+              target: ['moderationQueue', { id: queueItem.id }]
+            });
+          }, 1
+        );
+      }
     });
   }
 
