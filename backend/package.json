@@ -7,13 +7,14 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-module-rewrite": "^0.2.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.0.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0"
   },
   "scripts": {
-    "build": "babel -d ../dist/backend src/backend.js --source-maps --copy-files",
+    "build": "babel src --source-maps -d dist",
     "babel": "babel-node src/backend.js --inspect",
     "dev": "nodemon --ignore state/state.json --exec yarn babel"
   },

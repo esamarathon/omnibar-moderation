@@ -14,5 +14,8 @@
     "eslint": "^5.0.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0"
+  },
+  "scripts": {
+    "build": "babel -d dist src --source-maps --copy-files"
   }
 }

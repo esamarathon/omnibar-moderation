@@ -7,5 +7,7 @@
       }
     }]
   ],
-  "plugins": []
+  "plugins": [
+    ["module-rewrite", { "replaceFunc": "./build/replace-shared-paths.js" }]
+  ]
 }

@@ -3,7 +3,7 @@
     "backend": "cd backend && start cmd /k yarn dev",
     "frontend": "cd frontend && start cmd /k yarn dev",
     "dev": "yarn backend && yarn frontend",
-    "build": "cd backend && yarn build && cd ../frontend && yarn build"
+    "build": "cd shared && yarn build && cd ../backend && yarn build && cd ../frontend && yarn build"
   },
   "devDependencies": {},
   "dependencies": {}
