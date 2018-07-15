@@ -1,4 +1,3 @@
-import url from 'url';
 import settings from '../settings';
 
 console.log(settings);
@@ -12,7 +11,7 @@ export default {
   methods: {
     login: () => {
       window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${settings.twitch.clientID}` +
-        `&redirect_uri=${encodeURIComponent(url.resolve(settings.api.baseurl, 'login'))}` +
+        `&redirect_uri=${encodeURIComponent(settings.api.baseurl + '/login')}` +
         `&response_type=code&scope=`;
     }
   }
