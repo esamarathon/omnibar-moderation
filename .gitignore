@@ -64,3 +64,5 @@ typings/
 state.json
 settings.json
 settings.backend.json
+shipitfile.js
+dist

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/backend.js"],"names":["server","Server","runServer"],"mappings":";;AAAA;;AACA;;;;;;AAEA,MAAMA,SAAS,IAAIC,gBAAJ,EAAf;AACAD,OAAOE,SAAP","file":"backend.js","sourcesContent":["import './api';\nimport Server from './server';\n\nconst server = new Server();\nserver.runServer();\n"]}

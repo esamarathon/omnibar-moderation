@@ -13,7 +13,7 @@
     "eslint-plugin-import": "^2.13.0"
   },
   "scripts": {
-    "build": "babel -d dist src/backend.js --source-maps --copy-files",
+    "build": "babel -d ../dist/backend src/backend.js --source-maps --copy-files",
     "babel": "babel-node src/backend.js --inspect",
     "dev": "nodemon --ignore state/state.json --exec yarn babel"
   },
