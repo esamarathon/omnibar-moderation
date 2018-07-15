@@ -30,7 +30,7 @@ app.get('/login', async (req, res, next) => {
         client_id: settings.twitch.clientID,
         client_secret: settings.twitch.clientSecret,
         grant_type: 'authorization_code',
-        redirect_uri: `${settings.api.baseurl}/login`,
+        redirect_uri: `${settings.api.baseurl}login`,
         code: req.query.code,
         state: req.query.state
       },

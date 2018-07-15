@@ -85,7 +85,7 @@ export default {
         this.ws.close();
       }
       const url = new URL('ws', settings.api.baseurl);
-      url.protocol = url.protocol === 'https' ? 'wss' : 'ws';
+      url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
       this.ws = new WebSocket(url);
       this.ws.addEventListener('open', () => {
         console.log('Connected to WS');
