@@ -6,8 +6,4 @@ import backendArgs from '../../settings.backend.json';
 
 const settings = _.merge(defaultArgs, extendArgs, backendArgs);
 
-console.log('Settings: ', settings);
-console.log('Default settings:', defaultArgs);
-console.log('Extend settings:', extendArgs);
-console.log('Backend settings:', backendArgs);
 export default settings;

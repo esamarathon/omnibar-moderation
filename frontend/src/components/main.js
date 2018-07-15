@@ -10,6 +10,21 @@ function getCookie (name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
+function setCookie (name, value, days) {
+  var expires = '';
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = '; expires=' + date.toGMTString();
+  }
+
+  document.cookie = name + '=' + value + expires + '; path=/';
+}
+
+function deleteCookie (name) {
+  setCookie(name, '', -10);
+}
+
 export default {
   name: 'Main',
   data () {
@@ -17,7 +32,8 @@ export default {
       auth: null,
       user: null,
       status: null,
-      state: new State()
+      state: new State(),
+      connectionError: null
     };
   },
   async created () {
@@ -46,7 +62,6 @@ export default {
     if (this.ws) {
       console.log('Reloading main component, not reconnecting websocket!');
       this.ws.close();
-      this.reconnect = 'dont';
     }
   },
   methods: {
@@ -74,19 +89,21 @@ export default {
       this.ws = new WebSocket(url);
       this.ws.addEventListener('open', () => {
         console.log('Connected to WS');
-        this.reconnect = null;
+        this.connectionError = null;
         this.ws.send(JSON.stringify({
           command: 'auth',
           token: this.jwt
         }));
       });
       this.ws.addEventListener('error', err => {
-        console.error(err);
+        console.error('Websocket connection error', err);
+        this.connectionError = err.toString();
       });
-      this.ws.addEventListener('close', err => {
-        console.error('Disconnected from WS', err);
-        if (!this.reconnect) {
-          this.reconnect = setTimeout(() => {
+      this.ws.addEventListener('close', reason => {
+        console.error('Disconnected from WS', reason);
+        if (!reason.wasClean) {
+          this.connectionError = 'Disconnected from real time server';
+          setTimeout(() => {
             this.connectWS();
           }, 1000);
         }
@@ -101,6 +118,7 @@ export default {
           this.state.apply(data.mutation);
         } else if (data.command === 'status') {
           if (data.error) {
+            deleteCookie('om-jwt');
             this.$router.push({ name: 'Login', params: {error: data.error} });
           } else {
             this.status = data.status;
@@ -115,6 +133,10 @@ export default {
         id: data.item.id,
         decision: data.decision
       }));
+    },
+    logout () {
+      deleteCookie('om-jwt');
+      this.$router.push({name: 'Login'});
     }
   }
 };

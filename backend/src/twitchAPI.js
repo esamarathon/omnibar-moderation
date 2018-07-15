@@ -54,12 +54,12 @@ async function getModList() {
      }
     }
    }`;
-  const variables = { userId: settings.twitch.channelID, count: 100 };
+  const variables = { userId: settings.twitch.channels[0].id, count: 100 };
   const result = await twitchGQL(query, variables);
   return _.map(result.body.data.user.mods.edges, edge => edge.node);
 }
 
-const getModListThrottled = throttleAsync(getModList, 30000);
+const getModListThrottled = throttleAsync(getModList, 60000);
 
 export async function checkModStatus(user) {
   const adminStatus = _.find(settings.admins, { id: user.id });
@@ -68,6 +68,5 @@ export async function checkModStatus(user) {
   }
   logger.debug('Getting mod status for ', user);
   const modList = await getModListThrottled(true);
-  logger.debug('Got mod list for ', modList);
   return _.find(modList, { id: user.id });
 }

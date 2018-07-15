@@ -23,11 +23,11 @@ export default {
       profilePic: null
     };
   },
-  created () {
-    getProfilePic(this.user).then(profilePic => { this.profilePic = profilePic; });
+  async created () {
+    this.profilePic = await getProfilePic(this.user);
   },
-  updated () {
-    getProfilePic(this.user).then(profilePic => { this.profilePic = profilePic; });
+  async updated () {
+    this.profilePic = await getProfilePic(this.user);
   },
   props: {
     user: Object

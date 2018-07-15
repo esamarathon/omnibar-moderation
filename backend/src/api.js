@@ -44,7 +44,6 @@ app.get('/login', async (req, res, next) => {
 
       res.cookie('om-jwt', jwt);
 
-      console.log('Stuff: ', settings.frontend.baseurl, url.parse(req.query.state || '/').path);
       res.redirect(url.resolve(settings.frontend.baseurl, url.parse(req.query.state || '/').path));
     } else {
       res.status(402).end('Invalid authentication');

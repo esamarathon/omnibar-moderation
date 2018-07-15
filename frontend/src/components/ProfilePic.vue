@@ -4,3 +4,6 @@
 
 <script src="./profilepic.js">
 </script>
+
+<style lang="scss" scoped>
+</style>

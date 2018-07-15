@@ -88,22 +88,18 @@ export default class Server {
 
   moderate(id, user, action) {
     logger.info(`Moderating item ${id} with user `, user, action);
-    console.log('decisions query:', getAt(this.state.state, ['moderationQueue', { id }, 'decisions']));
     if (_.isEmpty(getAt(this.state.state, ['moderationQueue', { id }, 'decisions']))) {
-      console.log('duration update');
       this.apply({
         type: 'set',
         target: ['moderationQueue', { id }, 'duration'],
         data: settings.moderation.gracePeriod
       });
-      console.log('expires update');
       this.apply({
         type: 'set',
         target: ['moderationQueue', { id }, 'expires'],
         data: Date.now() + settings.moderation.gracePeriod
       });
     }
-    console.log('decisions update');
     this.apply({
       type: 'insert',
       target: ['moderationQueue', { id }, 'decisions'],
@@ -117,7 +113,6 @@ export default class Server {
   cleanse() {
     _.each(this.state.state.moderationQueue, queueItem => {
       if (Date.now() > queueItem.expires) {
-        console.log('Counting votes for ', queueItem);
         const votes = _.reduce(queueItem.decisions, (res, decision) => {
           res += voteWeights[decision.action];
           return res;

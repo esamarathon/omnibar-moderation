@@ -5,14 +5,14 @@
   .item-info {
     height: 50px;
   }
-  
+
   .item-type {
     height: 100%;
     vertical-align: middle;
     padding: 0 8px;
     min-width: 75px;
     font-size: larger;
-  
+
     &-sub {
       background-color: orange;
     }
@@ -23,42 +23,42 @@
       background-color: #222;
     }
   }
-  
+
   .user {
     font-size: large;
     margin-right: 18px;
     min-width: 200px;
   }
-  
+
   .decisions {
     padding-right: 8px;
   }
-  
+
   .decision {
     display: inline-block;
-    margin-left: -20px;
-  
+    margin-left: -15px;
+
     img {
       height: 30px;
       width: 30px;
       border-radius: 50%;
       max-width: none;
     }
-  
+
     &-approve img {
       box-shadow: 0 0 10px green, 0 0 10px green, 0 0 10px green;
     }
-  
+
     &-deny img {
       box-shadow: 0 0 10px darkred, 0 0 10px darkred, 0 0 10px darkred;
     }
-  
+
     &-veto img {
       box-shadow: 0 0 20px darkred, 0 0 20px darkred, 0 0 20px darkred;
       height: 40px;
       width: 40px;
     }
-  
+
     &-force img {
       box-shadow: 0 0 20px green, 0 0 20px green, 0 0 20px green;
       height: 40px;

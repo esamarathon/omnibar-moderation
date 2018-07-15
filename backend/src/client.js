@@ -13,9 +13,7 @@ export default class Client {
     if (message.command === 'auth') {
       return this.authenticate(message);
     }
-    console.log('Checking mod status');
     const modStatus = await this.isMod();
-    console.log('Mod status: ', modStatus);
     if (modStatus) {
       if (message.command === 'moderate') {
         return this.moderate(message.id, message.decision);
