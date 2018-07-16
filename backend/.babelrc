@@ -7,7 +7,11 @@
       }
     }]
   ],
-  "plugins": [
-    ["module-rewrite", { "replaceFunc": "./build/replace-shared-paths.js" }]
-  ]
+  "env": {
+    "production": {
+      "plugins": [
+        ["module-rewrite", { "replaceFunc": "./build/replace-shared-paths.js" }]
+      ]
+    }
+  }
 }
