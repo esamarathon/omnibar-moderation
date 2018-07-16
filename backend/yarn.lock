@@ -1562,6 +1562,10 @@ ipaddr.js@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.6.0.tgz#e3fa357b773da619f26e95f049d055c72796f86b"
 
+irc-prefix-parser@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/irc-prefix-parser/-/irc-prefix-parser-1.0.1.tgz#56ce60d78f30e9b80b0fcf123f4ef9f8f2e62e0b"
+
 is-arrayish@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
@@ -1701,6 +1705,10 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
+
+iso8601-convert@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/iso8601-convert/-/iso8601-convert-1.0.0.tgz#8a709807c98e60466d9e794d811265c90a415635"
 
 isobject@^2.0.0:
   version "2.1.0"
@@ -2771,7 +2779,7 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
-through2@^2.0.2:
+through2@^2.0.2, through2@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
   dependencies:
@@ -2799,12 +2807,6 @@ to-fast-properties@^1.0.3:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
-
-twitch-bot@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/twitch-bot/-/twitch-bot-1.2.5.tgz#977900eefae42037a79e4e1c283bd3773adec919"
-  dependencies:
-    lodash "^4.17.4"
 
 type-check@~0.3.2:
   version "0.3.2"

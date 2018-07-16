@@ -6,9 +6,9 @@ import State from '../../shared/src/state';
 import logger from './logger';
 import settings from './settings';
 import Client from './client';
-import IRCBot from './ircbot';
 import { app } from './api';
 import { getAt } from '../../shared/src/helpers';
+import EventCollector from './eventcollector';
 
 const persistentPath = settings.persistentState;
 function persistState(data) {
@@ -28,9 +28,9 @@ const voteWeights = {
 export default class Server {
   constructor() {
     this.clients = [];
-    this.ircbot = new IRCBot();
+    this.eventCollector = new EventCollector();
     this.runServer();
-    this.ircbot.on('event', event => {
+    this.eventCollector.on('event', event => {
       event.duration = settings.moderation.expirationTime;
       event.expires = Date.now() + event.duration;
       this.apply({

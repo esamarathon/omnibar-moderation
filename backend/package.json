@@ -24,11 +24,13 @@
     "express": "^4.16.3",
     "express-uws": "^3.0.1",
     "got": "^8.3.1",
+    "irc-prefix-parser": "^1.0.1",
+    "iso8601-convert": "^1.0.0",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "pino": "^4.17.3",
-    "twitch-bot": "^1.2.5",
+    "through2": "^2.0.3",
     "uws": "^10.148.1"
   }
 }

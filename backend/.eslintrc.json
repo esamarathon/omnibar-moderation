@@ -27,6 +27,7 @@
       1,
       150
     ],
+    "prefer-destructuring": "off",
     "linebreak-style": [1,"unix"],
     "indent": [
       2,
