@@ -35,11 +35,11 @@
         </span>
       </div>
       <div class="actionbuttons layout-row layout-center-center flex-none">
-        <md-button class="md-icon-button" @click="moderate('approve')">
+        <md-button class="md-icon-button" @click="moderate('approve')" :disabled="itemInfo.error">
           <md-icon>done</md-icon>
           <md-tooltip md-direction="bottom">Approve</md-tooltip>
         </md-button>
-        <md-button class="md-icon-button" @click="moderate('deny')">
+        <md-button class="md-icon-button" @click="moderate('deny')" :disabled="itemInfo.error">
           <md-icon>close</md-icon>
           <md-tooltip md-direction="bottom">Deny</md-tooltip>
         </md-button>
