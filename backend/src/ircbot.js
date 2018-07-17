@@ -37,7 +37,7 @@ export default class IRCBot extends EventEmitter {
       if (Date.now() - this.lastReconnect > 64000) this.reconnectDebounce = 1;
       else this.reconnectDebounce = Math.min(32, this.reconnectDebounce * 2);
       this.lastReconnect = Date.now();
-      console.log(`Bot disconnected, reconnecting in ${this.reconnectDebounce} seconds`);
+      console.error(`Bot disconnected, reconnecting in ${this.reconnectDebounce} seconds`);
       setTimeout(() => {
         this.connect();
       }, this.reconnectDebounce * 1000);

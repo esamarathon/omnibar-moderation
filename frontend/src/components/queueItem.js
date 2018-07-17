@@ -15,9 +15,7 @@ export default {
     });
   },
   methods: {
-    moderate (decision, ...args) {
-      console.log('decision param:', decision);
-      console.log('Other args:', args);
+    moderate (decision) {
       this.$emit('moderate', {
         item: this.itemInfo,
         decision
@@ -31,7 +29,6 @@ export default {
   computed: {
     sortedDecisions () {
       const result = _.sortBy(this.itemInfo.decisions, 'action');
-      console.log('Sorted decisions: ', result);
       return result;
     }
   }

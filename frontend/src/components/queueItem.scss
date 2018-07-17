@@ -22,6 +22,20 @@
     &-test {
       background-color: #222;
     }
+    &-resub {
+      background-color: #900;
+    }
+    &-subgift {
+      background-color: #090;
+    }
+  }
+
+  .item-channel {
+    height: 100%;
+    vertical-align: middle;
+    padding: 0 8px;
+    min-width: 75px;
+    font-size: larger;
   }
 
   .user {

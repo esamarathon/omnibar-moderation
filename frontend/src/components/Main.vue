@@ -18,12 +18,10 @@
     </div>
     <div class="layout-column layout-stretch-start item-list flex-100">
       <div class="error-popup" v-if="connectionError"><md-icon>warning</md-icon> {{connectionError}}</div>
-      <virtual-list :size="111" :remain="15" class="layout-padding" :class="{blur: connectionError}">
-        <transition-group name="moderation-queue">
-          <queue-item class="moderation-queue-item" :item-info="item" :status="status" v-for="item in state.state.moderationQueue" :key="item.id" @moderate="moderate">
-          </queue-item>
-        </transition-group>
-      </virtual-list>
+      <div class="layout-padding" :class="{blur: connectionError}">
+        <queue-item class="moderation-queue-item" :item-info="item" :status="status" @moderate="moderate" v-for="item in state.state.moderationQueue" :key="item.id">
+        </queue-item>
+      </div>
     </div>
   </div>
 </template>

@@ -30,32 +30,28 @@ export default class EventCollector extends EventEmitter {
 
     this.bot.on('USERNOTICE', message => {
       logger.debug('Sub received!', message);
-      if (message.tags['msg-id'].includes('sub')) this.handleSub(message);
+      if (settings.moderation[message.tags['msg-id']]) this.handleUsernotice(message);
     });
-    /*
-
-    this.client.on('subscription', event => {
-      logger.debug('Subscription received!', event);
-      this.handleSub(event);
-    }); */
   }
 
   handleCheer(event) {
-    this.emit('event', {
-      id: generateID(),
-      type: 'cheer',
-      message: event,
-      user: {
-        name: event.prefix.nick,
-        displayName: event.tags['display-name'],
-        id: event.tags['user-id']
-      },
-      channel: {
-        id: `${event.room_id}`,
-        name: event.channel.replace('#', '')
-      },
-      decisions: []
-    });
+    if (settings.moderation.bits && parseInt(event.tags.bits, 10) >= settings.moderation.bits) {
+      this.emit('event', {
+        id: generateID(),
+        type: 'cheer',
+        message: event,
+        user: {
+          name: event.prefix.nick,
+          displayName: event.tags['display-name'],
+          id: event.tags['user-id']
+        },
+        channel: {
+          id: `${event.room_id}`,
+          name: event.channel.replace('#', '')
+        },
+        decisions: []
+      });
+    }
   }
 
   handleTest(event) {
@@ -76,10 +72,10 @@ export default class EventCollector extends EventEmitter {
     });
   }
 
-  handleSub(event) {
+  handleUsernotice(event) {
     this.emit('event', {
       id: generateID(),
-      type: 'sub',
+      type: event.tags['msg-id'],
       message: event,
       user: {
         name: event.tags.login,

@@ -15,8 +15,6 @@
   },
   "admins": [
   ],
-  "server": {
-  },
   "api": {
     "baseurl": "http://127.0.0.1:8081/",
     "port": 8081
@@ -30,6 +28,15 @@
   },
   "moderation": {
     "expirationTime": 3600000,
-    "gracePeriod": 30000
+    "gracePeriod": 30000,
+    "bits": 1,
+    "sub": true,
+    "resub": true,
+    "subgift": true,
+    "raid": false,
+    "ritual": false
+  },
+  "repeater": {
+    "endpoint": ""
   }
 }
