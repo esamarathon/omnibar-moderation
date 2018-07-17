@@ -1,7 +1,8 @@
 import pino from 'pino';
+import settings from './settings';
 
 const logger = pino({
-  name: 'Logviewer',
+  name: 'Omnibar-moderation',
   level: 'debug',
   prettyPrint: {
     levelFirst: true,
@@ -9,8 +10,8 @@ const logger = pino({
   }
 });
 
-if (process.env.loglevel) {
-  logger.level = process.env.loglevel;
+if (settings.log.level) {
+  logger.level = settings.log.level;
   logger.info('Setting loglevel to', logger.level);
 }
 

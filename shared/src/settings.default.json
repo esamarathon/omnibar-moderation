@@ -39,5 +39,8 @@
   "repeater": {
     "endpoint": "",
     "retry": 10000
+  },
+  "log": {
+    "level": "debug"
   }
 }
