@@ -1,7 +1,7 @@
 <template>
   <div class="queue-item layout-column layout-stretch-start flex-none">
     <div class="item-info layout-row layout-stretch-between flex-none">
-      <div class="flex-none layout-row">
+      <div class="flex-100 layout-row">
         <div class="item-type layout-row layout-center-center" :class="['item-type-'+itemInfo.type]">
           <span class="flex-none">{{itemInfo.type}}</span>
         </div>
@@ -12,7 +12,7 @@
       <div class="pushing-error flex-none layout-row layout-center-center" v-if="itemInfo.error">
         <md-icon>error</md-icon> Event could not be pushed: {{itemInfo.error}}
       </div>
-      <div class="decisions flex-none layout-row layout-center-center">
+      <div class="decisions flex-100 layout-row layout-center-end">
         <div class="flex-none">
           <div class="decision" :class="['decision-'+decision.action]" v-for="decision in sortedDecisions" :key="decision.user.id">
             <profile-pic :user="{id: decision.user.id}"></profile-pic>
