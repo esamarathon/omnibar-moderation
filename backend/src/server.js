@@ -130,10 +130,11 @@ export default class Server {
                 target: ['moderationQueue', { id: queueItem.id }, 'sent'],
                 data: Date.now()
               });
-              await got.post(settings.repeater.endpoint, { body: _.pick(queueItem, ['id', 'type', 'message', 'user', 'channel']) });
+              await got.post(settings.repeater.endpoint, { body: JSON.stringify(_.pick(queueItem, ['id', 'type', 'message', 'user', 'channel'])) });
               logger.debug('Event successfully pushed');
             } catch (err) {
               remove = false;
+              console.error(err);
               logger.error('Event could not be pushed', err);
               const errorCode = err.code;
               if (errorCode !== queueItem.error) {
