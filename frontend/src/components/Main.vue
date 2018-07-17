@@ -38,6 +38,7 @@
   padding: 8px;
   border-radius: 4px;
   font-size: 1.5em;
+  z-index: 200;
 }
 
 .blur {

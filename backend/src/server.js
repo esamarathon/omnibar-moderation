@@ -1,14 +1,15 @@
 import fs from 'fs';
 import _ from 'lodash';
-import State from '../../shared/src/state';
+import got from 'got';
 
 
 import logger from './logger';
 import settings from './settings';
 import Client from './client';
 import { app } from './api';
-import { getAt } from '../../shared/src/helpers';
+import State from '../../shared/src/state';
 import EventCollector from './eventcollector';
+import { getAt } from '../../shared/src/helpers';
 
 const persistentPath = settings.persistentState;
 function persistState(data) {
@@ -111,8 +112,10 @@ export default class Server {
 
   // removes expired events, triggers accepted events.
   cleanse() {
-    _.each(this.state.state.moderationQueue, queueItem => {
-      if (Date.now() > queueItem.expires) {
+    _.each(this.state.state.moderationQueue, async queueItem => {
+      const expirationTime = queueItem.sent ? queueItem.sent + settings.repeater.retry : queueItem.expires;
+      if (Date.now() > expirationTime) {
+        let remove = true;
         const votes = _.reduce(queueItem.decisions, (res, decision) => {
           res += voteWeights[decision.action];
           return res;
@@ -120,17 +123,41 @@ export default class Server {
         logger.info('Votes:', votes);
         if (votes > 0) {
           logger.info('Accepting event', queueItem);
+          if (settings.repeater.endpoint) {
+            try {
+              this.apply({
+                type: 'set',
+                target: ['moderationQueue', { id: queueItem.id }, 'sent'],
+                data: Date.now()
+              });
+              await got.post(settings.repeater.endpoint, { body: _.pick(queueItem, ['id', 'type', 'message', 'user', 'channel']), json: true });
+              logger.debug('Event successfully pushed');
+            } catch (err) {
+              remove = false;
+              logger.error('Event could not be pushed', err);
+              const errorCode = err.code;
+              if (errorCode !== queueItem.error) {
+                this.apply({
+                  type: 'set',
+                  target: ['moderationQueue', { id: queueItem.id }, 'error'],
+                  data: err.code
+                });
+              }
+            }
+          }
         } else {
           logger.info('Denying event', queueItem);
         }
-        setTimeout(
-          () => {
-            this.apply({
-              type: 'delete',
-              target: ['moderationQueue', { id: queueItem.id }]
-            });
-          }, 1
-        );
+        if (remove) {
+          setTimeout(
+            () => {
+              this.apply({
+                type: 'delete',
+                target: ['moderationQueue', { id: queueItem.id }]
+              });
+            }, 1
+          );
+        }
       }
     });
   }

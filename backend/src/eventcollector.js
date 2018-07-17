@@ -49,7 +49,9 @@ export default class EventCollector extends EventEmitter {
           id: `${event.room_id}`,
           name: event.channel.replace('#', '')
         },
-        decisions: []
+        decisions: [],
+        error: null,
+        sent: false
       });
     }
   }
@@ -68,7 +70,9 @@ export default class EventCollector extends EventEmitter {
         id: `${event.tags['room-id']}`,
         name: event.channel.replace('#', '')
       },
-      decisions: []
+      decisions: [],
+      error: null,
+      sent: false
     });
   }
 
@@ -86,7 +90,9 @@ export default class EventCollector extends EventEmitter {
         id: `${event.tags['room-id']}`,
         name: event.channel.replace('#', '')
       },
-      decisions: []
+      decisions: [],
+      error: null,
+      sent: false
     });
   }
 }

@@ -9,6 +9,9 @@
           <span class="flex-none"><a :href="'https://twitch.tv/'+itemInfo.channel.name">twitch.tv/{{itemInfo.channel.name}}</a></span>
         </div>
       </div>
+      <div class="pushing-error flex-none layout-row layout-center-center" v-if="itemInfo.error">
+        <md-icon>error</md-icon> Event could not be pushed: {{itemInfo.error}}
+      </div>
       <div class="decisions flex-none layout-row layout-center-center">
         <div class="flex-none">
           <div class="decision" :class="['decision-'+decision.action]" v-for="decision in sortedDecisions" :key="decision.user.id">
@@ -18,7 +21,7 @@
         </div>
       </div>
     </div>
-    <!--<progress-bar :duration="itemInfo.duration" :finishes="itemInfo.expires"></progress-bar>-->
+    <progress-bar :duration="itemInfo.duration" :finishes="itemInfo.expires"></progress-bar>
     <div class="item-content layout-row layout-stretch-start layout-padding flex-none">
       <div class="user flex-none">
         <md-avatar>

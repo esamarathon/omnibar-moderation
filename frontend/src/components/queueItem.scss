@@ -6,6 +6,15 @@
     height: 50px;
   }
 
+  .pushing-error {
+    background-color: darkred;
+    padding: 0 16px;
+
+    .md-icon {
+      margin-right: 8px;
+    }
+  }
+
   .item-type {
     height: 100%;
     vertical-align: middle;

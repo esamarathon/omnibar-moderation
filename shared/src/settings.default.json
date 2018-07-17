@@ -37,6 +37,7 @@
     "ritual": false
   },
   "repeater": {
-    "endpoint": ""
+    "endpoint": "",
+    "retry": 10000
   }
 }
