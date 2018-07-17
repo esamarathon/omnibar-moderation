@@ -91,8 +91,4 @@
   height: 0px;
   margin-bottom: 0;
 }
-
-.moderation-queue-leave-active {
-  /* position: absolute;*/
-}
 </style>
