@@ -137,12 +137,12 @@ export default class Server {
               remove = false;
               console.error(err);
               logger.error('Event could not be pushed', err);
-              const errorCode = err.code;
+              const errorCode = err.code || `${err.statusCode} ${err.statusMessage}`;
               if (errorCode !== queueItem.error) {
                 this.apply({
                   type: 'set',
                   target: ['moderationQueue', { id: queueItem.id }, 'error'],
-                  data: err.code
+                  data: errorCode
                 });
               }
             }

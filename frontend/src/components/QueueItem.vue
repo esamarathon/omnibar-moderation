@@ -12,6 +12,10 @@
       <div class="pushing-error flex-none layout-row layout-center-center" v-if="itemInfo.error">
         <md-icon>error</md-icon> Event could not be pushed: {{itemInfo.error}}
       </div>
+      <div class="sending-info flex-none layout-row layout-center-center" v-else-if="itemInfo.sent">
+        <div class="sending-progress flex-none layout-row layout-center-center"><div class="flex-none spinner"><md-progress-spinner md-mode="indeterminate" :md-diameter=30 :md-stroke=2></md-progress-spinner></div> Accepting...</div>
+        <div class="sent flex-none layout-row layout-center-center"><md-icon class="flex-none">done</md-icon> Done!</div>
+      </div>
       <div class="decisions flex-100 layout-row layout-center-end">
         <div class="flex-none">
           <div class="decision" :class="['decision-'+decision.action]" v-for="decision in sortedDecisions" :key="decision.user.id">
@@ -35,11 +39,11 @@
         </span>
       </div>
       <div class="actionbuttons layout-row layout-center-center flex-none">
-        <md-button class="md-icon-button" @click="moderate('approve')" :disabled="itemInfo.error">
+        <md-button class="md-icon-button" @click="moderate('approve')" :disabled="!!itemInfo.error">
           <md-icon>done</md-icon>
           <md-tooltip md-direction="bottom">Approve</md-tooltip>
         </md-button>
-        <md-button class="md-icon-button" @click="moderate('deny')" :disabled="itemInfo.error">
+        <md-button class="md-icon-button" @click="moderate('deny')" :disabled="!!itemInfo.error">
           <md-icon>close</md-icon>
           <md-tooltip md-direction="bottom">Deny</md-tooltip>
         </md-button>

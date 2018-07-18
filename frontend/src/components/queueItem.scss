@@ -14,6 +14,31 @@
       margin-right: 8px;
     }
   }
+  .sending-info {
+    background-color: rgb(93, 144, 255);
+    padding: 0 16px;
+
+    .sent {
+      display: none;
+    }
+    .sending-progress {
+      display: flex;
+    }
+
+    .md-icon {
+      margin-right: 8px;
+    }
+
+    .spinner {
+      margin-right: 8px;
+    }
+
+    .md-progress-spinner {
+      &.md-theme-default .md-progress-spinner-circle {
+        stroke: white;
+      }
+    }
+  }
 
   .item-type {
     height: 100%;
@@ -90,3 +115,15 @@
   }
 }
 
+.moderation-queue-leave-to {
+  .sending-info {
+    background-color: #090;
+
+    .sent {
+      display: flex;
+    }
+    .sending-progress {
+      display: none;
+    }
+  }
+}
