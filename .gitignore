@@ -61,8 +61,8 @@ typings/
 .next
 
 .vs
-state.json
 settings.json
 settings.backend.json
 shipitfile.js
 dist
+backend/state/
