@@ -11,7 +11,13 @@
         "id": "54739364",
         "name": "esamarathon"
       }
-    ]
+    ],
+    "bits": 1,
+    "sub": true,
+    "resub": true,
+    "subgift": true,
+    "raid": false,
+    "ritual": false
   },
   "admins": [
   ],
@@ -28,13 +34,7 @@
   },
   "moderation": {
     "expirationTime": 3600000,
-    "gracePeriod": 30000,
-    "bits": 1,
-    "sub": true,
-    "resub": true,
-    "subgift": true,
-    "raid": false,
-    "ritual": false
+    "gracePeriod": 30000
   },
   "repeater": {
     "endpoint": "",

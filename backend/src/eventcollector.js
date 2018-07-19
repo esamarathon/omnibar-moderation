@@ -56,7 +56,7 @@ export default class EventCollector extends EventEmitter {
 
     this.bot.on('USERNOTICE', message => {
       logger.debug('Sub received!', message);
-      if (settings.moderation[message.tags['msg-id']]) this.handleUsernotice(message);
+      if (settings.twitch[message.tags['msg-id']]) this.handleUsernotice(message);
     });
 
     this.twitter = null;
@@ -108,7 +108,7 @@ export default class EventCollector extends EventEmitter {
   }
 
   async handleCheer(event) {
-    if (settings.moderation.bits && parseInt(event.tags.bits, 10) >= settings.moderation.bits) {
+    if (settings.twitch.bits && parseInt(event.tags.bits, 10) >= settings.twitch.bits) {
       this.emit('event', {
         id: generateID(),
         provider: 'twitch',
