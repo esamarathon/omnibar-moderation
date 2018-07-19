@@ -62,9 +62,12 @@
     &-subgift {
       background-color: #090;
     }
+    &-tweet {
+      background-color: #1DA1F2;
+    }
   }
 
-  .item-channel {
+  .item-channel, .item-twitter-stats {
     height: 100%;
     vertical-align: middle;
     padding: 0 8px;
@@ -125,5 +128,22 @@
     .sending-progress {
       display: none;
     }
+  }
+}
+
+.md-icon.inline {
+  vertical-align: text-bottom;
+}
+
+.item-twitter-stats {
+  > span {
+    margin-right: 4px;
+  }
+
+  .favorites, .favorites .md-icon.md-theme-default.md-icon-font {
+    color: rgb(224, 36, 94);
+  }
+  .retweets, .retweets .md-icon.md-theme-default.md-icon-font {
+    color: rgb(23, 191, 99);
   }
 }

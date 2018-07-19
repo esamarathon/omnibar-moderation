@@ -11,7 +11,7 @@ import State from '../../shared/src/state';
 import EventCollector from './eventcollector';
 import { getAt } from '../../shared/src/helpers';
 
-const persistentPath = settings.persistentState;
+const persistentPath = `${settings.dataFolder}state.json`;
 function persistState(data) {
   fs.writeFile(persistentPath, JSON.stringify(data), 'utf-8', err => {
     if (err) logger.error(err);
@@ -130,7 +130,7 @@ export default class Server {
                 target: ['moderationQueue', { id: queueItem.id }, 'sent'],
                 data: Date.now()
               });
-              console.log('Pushing event', JSON.stringify(_.pick(queueItem, ['id', 'type', 'message', 'user', 'channel'])));
+              logger.debug('Pushing event', JSON.stringify(_.pick(queueItem, ['id', 'type', 'message', 'user', 'channel'])));
               const result = await got.post(settings.repeater.endpoint, { body: _.pick(queueItem, ['id', 'type', 'message', 'user', 'channel']), json: true });
               logger.debug('Event successfully pushed', result.body);
             } catch (err) {

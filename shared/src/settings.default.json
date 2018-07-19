@@ -22,7 +22,7 @@
   "frontend": {
     "baseurl": "http://127.0.0.1:8080/"
   },
-  "persistentState": "state/state.json",
+  "dataFolder": "state/",
   "extend": {
     "backend": "settings.backend.json"
   },
@@ -42,5 +42,13 @@
   },
   "log": {
     "level": "debug"
+  },
+  "twitter": {
+    "consumerSecret": "",
+    "consumerKey": "",
+    "bearerToken": "",
+    "pollRate": 200000,
+    "tweets": 5,
+    "hashtag": "#ESASummer18"
   }
 }

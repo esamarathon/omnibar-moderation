@@ -10,9 +10,6 @@ export default {
     };
   },
   created () {
-    getUser({id: this.itemInfo.user.id}).then(userInfo => {
-      this.userInfo = userInfo;
-    });
   },
   methods: {
     moderate (decision) {

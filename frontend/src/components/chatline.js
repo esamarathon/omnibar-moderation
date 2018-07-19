@@ -53,15 +53,18 @@ function setToken (msg, start, end, token) {
 
 function parseChatLine (message) {
   let msg = [];
-  if (message.trailing) {
-    msg = Array.from(message.trailing);
+  const text = message.trailing || message.full_text;
+  if (text) {
+    msg = Array.from(text);
     // replace emotes
-    _.each(getEmotes(msg, message.tags.emotes), emote => {
-      setToken(msg, emote.start, emote.end, {
-        type: 'emote',
-        data: emote
+    if (message.tags && message.provider === 'twitch') {
+      _.each(getEmotes(msg, message.tags.emotes), emote => {
+        setToken(msg, emote.start, emote.end, {
+          type: 'emote',
+          data: emote
+        });
       });
-    });
+    }
     // split into words
     let currentWordStart = 0;
     let currentWord = '';
@@ -96,7 +99,7 @@ function parseChatLine (message) {
     }
   }
 
-  if (message.tags['system-msg']) {
+  if (message.tags && message.provider === 'twitch' && message.tags['system-msg']) {
     msg.unshift({
       type: 'system',
       data: message.tags['system-msg'].replace(/\\s/g, ' ')

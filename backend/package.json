@@ -16,7 +16,7 @@
   "scripts": {
     "build": "babel src --source-maps -d dist",
     "babel": "babel-node src/backend.js --inspect",
-    "dev": "nodemon --ignore state/state.json --exec yarn babel"
+    "dev": "nodemon --ignore state/* --exec yarn babel"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -31,6 +31,7 @@
     "minimist": "^1.2.0",
     "pino": "^4.17.3",
     "through2": "^2.0.3",
+    "twitter": "^1.7.1",
     "uws": "^10.148.1"
   }
 }
