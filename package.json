@@ -4,7 +4,8 @@
     "frontend": "cd frontend && start cmd /k yarn dev",
     "dev": "yarn backend && yarn frontend",
     "build": "cd shared && yarn build && cd ../backend && yarn build && cd ../frontend && yarn build",
-    "install": "cd frontend && yarn install && cd ../backend && yarn install && cd ../shared && yarn install"
+    "install": "cd frontend && yarn install && cd ../backend && yarn install && cd ../shared && yarn install",
+    "start": "cd backend/dist && node ./backend.js"
   },
   "devDependencies": {},
   "dependencies": {}

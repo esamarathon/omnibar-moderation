@@ -65,4 +65,4 @@ settings.json
 settings.backend.json
 shipitfile.js
 dist
-backend/state/
+backend/state/*.json
