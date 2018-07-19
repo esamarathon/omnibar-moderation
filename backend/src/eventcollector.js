@@ -12,13 +12,13 @@ import logger from './logger';
 import { twitchGet } from './twitchAPI';
 
 async function getBearerToken() {
-  return JSON.parse(await got.post('https://api.twitter.com/oauth2/token', {
+  return JSON.parse((await got.post('https://api.twitter.com/oauth2/token', {
     headers: {
       Authorization: `Basic ${Buffer.from(`${settings.twitter.consumerKey}:${settings.twitter.consumerSecret}`).toString('base64')}`,
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
-    form: { grant_type: 'client_credentials' }
-  })).body.access_token;
+    query: { grant_type: 'client_credentials' }
+  })).body).access_token;
 }
 
 async function getTwitchProfilePic(userID) {
