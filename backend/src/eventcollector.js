@@ -181,12 +181,13 @@ export default class EventCollector extends EventEmitter {
         q: settings.twitter.hashtag, count: 100, result_type: 'recent', tweet_mode: 'extended'
       });
 
-      const sortedTweets = _.sortBy(searchResult.statuses, [tweet => (-tweet.favorite_count - tweet.retweet_count)]).slice(0, settings.twitter.tweets);
-      logger.debug('Sorted tweets:', sortedTweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
-      const filteredTweets = _.filter(sortedTweets, status => !this.twitterState.emittedTweets[status.id_str]);
-      logger.debug('Filtered tweets:', filteredTweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
+      let tweets = _.filter(searchResult.statuses, tweet => !settings.twitter.blocked.includes(tweet.user.name));
+      tweets = _.sortBy(tweets, [tweet => (-tweet.favorite_count - tweet.retweet_count)]).slice(0, settings.twitter.tweets);
+      logger.debug('Sorted tweets:', tweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
+      tweets = _.filter(tweets, status => !this.twitterState.emittedTweets[status.id_str]);
+      logger.debug('Filtered tweets:', tweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
 
-      _.each(filteredTweets, async tweet => {
+      _.each(tweets, async tweet => {
         this.twitterState.emittedTweets[tweet.id_str] = true;
         this.emit('event', {
           id: generateID(),

@@ -49,6 +49,10 @@
     "bearerToken": "",
     "pollRate": 200000,
     "tweets": 5,
-    "hashtag": "#ESASummer18"
+    "hashtag": "#ESASummer18",
+    "blocked": [
+      "esamarathon",
+      "insideesa"
+    ]
   }
 }
