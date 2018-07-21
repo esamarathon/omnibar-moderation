@@ -57,7 +57,7 @@ function parseChatLine (message) {
   if (text) {
     msg = Array.from(text);
     // replace emotes
-    if (message.tags && message.provider === 'twitch') {
+    if (message.tags) {
       _.each(getEmotes(msg, message.tags.emotes), emote => {
         setToken(msg, emote.start, emote.end, {
           type: 'emote',
@@ -99,7 +99,7 @@ function parseChatLine (message) {
     }
   }
 
-  if (message.tags && message.provider === 'twitch' && message.tags['system-msg']) {
+  if (message.tags && message.tags['system-msg']) {
     msg.unshift({
       type: 'system',
       data: message.tags['system-msg'].replace(/\\s/g, ' ')
