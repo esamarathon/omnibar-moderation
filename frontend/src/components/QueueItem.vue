@@ -61,6 +61,9 @@
         </md-button>
       </div>
     </div>
+    <div class="item-media layout-row layout-stretch-start layout-padding flex-none" v-if="media">
+      <lightbox :items="media"></lightbox>
+    </div>
   </div>
 </template>
 
