@@ -23,6 +23,7 @@
           <queue-item class="moderation-queue-item" :item-info="item" :status="status" @moderate="moderate" v-for="item in state.state.moderationQueue" :key="item.id">
           </queue-item>
         </transition-group>
+        <div v-if="state.state.moderationQueue.length === 0" class="layout-row layout-center-center"><span class="flex-none no-items-found">No items found.</span></div>
       </div>
     </div>
   </div>
@@ -89,5 +90,9 @@
 .moderation-queue-leave-to {
   height: 0px;
   margin-bottom: 0;
+}
+
+.no-items-found {
+  font-size: 20px;
 }
 </style>
