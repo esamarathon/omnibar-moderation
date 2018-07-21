@@ -8,14 +8,14 @@ import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default-dark.css';
 
-import VirtualScrollList from 'vue-virtual-scroll-list';
+import Lightbox from './components/Lightbox.vue';
 
 import './styles/base.scss';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueMaterial);
-Vue.component('virtual-list', VirtualScrollList);
+Vue.component('lightbox', Lightbox);
 
 /* eslint-disable no-new */
 new Vue({

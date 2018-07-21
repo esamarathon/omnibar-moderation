@@ -79,7 +79,6 @@
 
 .moderation-queue-item {
   transition: all 1s;
-  height: 111px;
   overflow-y: hidden;
 }
 
