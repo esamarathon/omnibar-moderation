@@ -181,7 +181,7 @@ export default class EventCollector extends EventEmitter {
         q: settings.twitter.hashtag, count: 100, result_type: 'recent', tweet_mode: 'extended'
       });
 
-      let tweets = _.filter(searchResult.statuses, tweet => !settings.twitter.blocked.includes(tweet.user.name));
+      let tweets = _.filter(searchResult.statuses, tweet => !settings.twitter.blocked.includes(tweet.user.name) && !tweet.retweeted_status);
       tweets = _.sortBy(tweets, [tweet => (-tweet.favorite_count - tweet.retweet_count)]).slice(0, settings.twitter.tweets);
       logger.debug('Sorted tweets:', tweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
       tweets = _.filter(tweets, status => !this.twitterState.emittedTweets[status.id_str]);
