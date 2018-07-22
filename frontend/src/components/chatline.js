@@ -26,9 +26,8 @@ function getEmotes (msg, emoteTags) {
   return emotes;
 }
 
-const urlRegex = /(?:https?:\/\/(?:www\.|(?!www))([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})|www\.([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})|https?:\/\/(?:www\.|(?!www))([a-zA-Z0-9]\.[^\s]{2,})|www\.([a-zA-Z0-9]\.[^\s]{2,}))/gi;
-
 function classifyWord (word) {
+  const urlRegex = /(?:https?:\/\/(?:www\.|(?!www))([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})|www\.([a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,})|https?:\/\/(?:www\.|(?!www))([a-zA-Z0-9]\.[^\s]{2,})|www\.([a-zA-Z0-9]\.[^\s]{2,}))/gi;
   const urlMatch = urlRegex.exec(word);
   if (urlMatch) {
     return {
