@@ -33,6 +33,8 @@
 </script>
 
 <style scoped lang="scss">
+$break-small: 1000px;
+
 .error-popup {
   background-color: darkred;
   position: absolute;
@@ -53,6 +55,10 @@
   width: 70%;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
+
+  @media screen and (max-width: $break-small) {
+    width: 100%;
+  }
 }
 
 .user-info {

@@ -1,6 +1,6 @@
 <template>
   <div class="lightbox layout-row layout-wrap">
-    <div class="lightbox-thumbnail-box flex-none" v-for="mediaItem in items" :key="mediaItem" @click="showDialog = true">
+    <div class="lightbox-thumbnail-box flex-none" v-for="(mediaItem, index) in items" :key="index" @click="showDialog = true">
       <img :src="mediaItem.thumbnail" class="lightbox-thumbnail">
     </div>
     <md-dialog :md-active.sync="showDialog" class="rounded-dialog">

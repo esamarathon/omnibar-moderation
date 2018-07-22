@@ -37,10 +37,8 @@
         </md-avatar>
         {{itemInfo.user.displayName}}
       </div>
-      <div class="message layout-row layout-center-start flex-100">
-        <span class="flex-none">
-          <chat-line :line="itemInfo.message"></chat-line>
-        </span>
+      <div class="message layout-row layout-center-start flex-all">
+        <chat-line :line="itemInfo.message" class="md-medium-hide"></chat-line>
       </div>
       <div class="actionbuttons layout-row layout-center-center flex-none">
         <md-button class="md-icon-button" @click="moderate('approve')" :disabled="!!itemInfo.error">
@@ -61,6 +59,7 @@
         </md-button>
       </div>
     </div>
+    <chat-line :line="itemInfo.message" class="md-medium-show"></chat-line>
     <div class="item-media layout-row layout-stretch-start layout-padding flex-none" v-if="media">
       <lightbox :items="media"></lightbox>
     </div>
