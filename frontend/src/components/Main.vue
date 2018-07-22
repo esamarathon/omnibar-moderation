@@ -89,6 +89,7 @@
 
 .moderation-queue-leave-to {
   height: 0px;
+  min-height: 0;
   margin-bottom: 0;
 }
 
