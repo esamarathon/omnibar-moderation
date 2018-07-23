@@ -93,3 +93,18 @@ export function removeAt(object, path) {
 export function generateID() {
   return `${Date.now()}${_.random(10000000, 99999999)}`;
 }
+
+const entityMap = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '/': '&#x2F;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+export function escapeHtml(string) {
+  return String(string).replace(/[&<>"'`=\/]/g, s => entityMap[s]);
+}

@@ -130,7 +130,11 @@ export default class Server {
                 target: ['moderationQueue', { id: queueItem.id }, 'sent'],
                 data: Date.now()
               });
-              const emittedEvent = _.pick(queueItem, ['id', 'type', 'provider', 'message', 'user', 'channel']);
+              const emittedEvent = _.cloneDeep(_.pick(queueItem, ['id', 'type', 'provider', 'message', 'user', 'channel']));
+              // we escape serverside because zoton didnt do it clientside
+              if (emittedEvent.message.trailing) emittedEvent.message.trailing = escapeHtml(emittedEvent.message.trailing);
+              if (emittedEvent.message.full_text) emittedEvent.message.trailing = escapeHtml(emittedEvent.message.trailing);
+
               logger.debug('Pushing event', JSON.stringify(emittedEvent));
               const result = await got.post(settings.repeater.endpoint, { body: emittedEvent, json: true });
               logger.debug('Event successfully pushed', result.body);
