@@ -9,7 +9,7 @@ import Client from './client';
 import { app } from './api';
 import State from '../../shared/src/state';
 import EventCollector from './eventcollector';
-import { getAt, escapeHtml } from '../../shared/src/helpers';
+import { getAt } from '../../shared/src/helpers';
 
 const persistentPath = `${settings.dataFolder}state.json`;
 function persistState(data) {

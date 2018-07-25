@@ -1,3 +1,5 @@
+import { getDate } from '../dateEstimation';
+
 const stateMap = new WeakMap();
 
 export default {
@@ -15,8 +17,7 @@ export default {
         stateMap.set(el, state);
         const updateProgressBar = () => {
           let currentState = stateMap.get(el) || {};
-          let width =
-            (currentState.finishes - Date.now()) / currentState.duration;
+          let width = (currentState.finishes - getDate()) / currentState.duration;
           if (width < 0) width = 0;
           if (width > 1) width = 1;
           el.style.width = width * 100 + '%';

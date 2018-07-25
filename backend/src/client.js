@@ -45,7 +45,7 @@ export default class Client {
           const modStatus = await this.isMod();
           if (modStatus) {
             // send the client the current state
-            this.connection.send(JSON.stringify({ command: 'status', status: modStatus }));
+            this.connection.send(JSON.stringify({ command: 'status', status: modStatus, serverTime: Date.now() }));
             this.connection.send(JSON.stringify({ command: 'state', data: this.server.state.state }));
           } else {
             this.connection.send(JSON.stringify({ command: 'status', error: 'Not a moderator.' }));

@@ -86,12 +86,12 @@ export default {
     items: Array
   },
   methods: {
-    go(dir) {
-      const newPage = this.page+dir;
-      if(newPage >= 0 && newPage < this.items.length) {
+    go (dir) {
+      const newPage = this.page + dir;
+      if (newPage >= 0 && newPage < this.items.length) {
         this.page = newPage;
       }
     }
   }
-}
+};
 </script>
