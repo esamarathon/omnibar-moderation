@@ -1,7 +1,7 @@
 let serverDelay = 0;
 
 export function getDate () {
-  return Date.now() - serverDelay;
+  return Date.now() + serverDelay;
 }
 
 export function setServerDelay (serverTime) {
