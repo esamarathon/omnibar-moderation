@@ -3,7 +3,7 @@
     <div class="lightbox-thumbnail-box flex-none" v-for="(mediaItem, index) in items" :key="index" @click="showDialog = true">
       <img :src="mediaItem.thumbnail" class="lightbox-thumbnail">
     </div>
-    <md-dialog :md-active.sync="showDialog" class="rounded-dialog">
+    <md-dialog :md-active.sync="showDialog" class="rounded-dialog" :md-fullscreen="false">
       <div class="lightbox-tabs" v-if="showDialog">
         <div class="lightbox-scroller layout-row" :style="{left: `${-page*100}%`}">
           <div class="lightbox-tab flex-none" v-for="(mediaItem, index) in items" :style="{backgroundImage:`url(${mediaItem.img})`}" :key="index"></div>
