@@ -67,3 +67,4 @@ shipitfile.js
 dist
 backend/state/*.json
 backend/state/twitter.json
+*.sh

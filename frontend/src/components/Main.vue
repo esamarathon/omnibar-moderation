@@ -23,6 +23,7 @@
           <queue-item class="moderation-queue-item" :item-info="item" :status="status" @moderate="moderate" v-for="item in state.state.moderationQueue" :key="item.id">
           </queue-item>
         </transition-group>
+        <div v-if="state.state.moderationQueue.length === 0" class="layout-row layout-center-center"><span class="flex-none no-items-found">No items found.</span></div>
       </div>
     </div>
   </div>
@@ -32,6 +33,8 @@
 </script>
 
 <style scoped lang="scss">
+$break-small: 1000px;
+
 .error-popup {
   background-color: darkred;
   position: absolute;
@@ -52,6 +55,10 @@
   width: 70%;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
+
+  @media screen and (max-width: $break-small) {
+    width: 100%;
+  }
 }
 
 .user-info {
@@ -79,7 +86,6 @@
 
 .moderation-queue-item {
   transition: all 1s;
-  height: 111px;
   overflow-y: hidden;
 }
 
@@ -89,6 +95,11 @@
 
 .moderation-queue-leave-to {
   height: 0px;
+  min-height: 0;
   margin-bottom: 0;
+}
+
+.no-items-found {
+  font-size: 20px;
 }
 </style>

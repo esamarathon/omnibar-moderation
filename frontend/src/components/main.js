@@ -3,6 +3,7 @@ import Vue from 'vue';
 import { getUser } from '../twitch';
 import State from '../../../shared/src/state';
 import settings from '../settings';
+import { setServerDelay } from '../dateEstimation';
 
 function getCookie (name) {
   var value = '; ' + document.cookie;
@@ -122,6 +123,7 @@ export default {
             this.$router.push({ name: 'Login', params: {error: data.error} });
           } else {
             this.status = data.status;
+            setServerDelay(data.serverTime);
           }
         }
       });

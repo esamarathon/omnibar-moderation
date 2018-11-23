@@ -96,6 +96,21 @@ body {
   max-width: 100%;
 }
 
+.flex-all {
+  flex-grow: 1;
+}
+
 .layout-padding {
   padding: 8px;
+  height: auto;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.md-medium-show {
+  @media screen and (min-width: 1281px) {
+    display: none;
+  }
 }
