@@ -63,6 +63,7 @@ typings/
 .vs
 settings.json
 settings.backend.json
+settings.*.json
 shipitfile.js
 dist
 backend/state/*.json
