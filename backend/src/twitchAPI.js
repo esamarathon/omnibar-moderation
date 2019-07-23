@@ -62,7 +62,7 @@ async function getModList() {
 const getModListThrottled = throttleAsync(getModList, 60000);
 
 export async function checkModStatus(user) {
-  const adminStatus = _.find(settings.admins, { id: user.id });
+  const adminStatus = _.find(settings.admins, { id: user.id }) || _.find(settings.twitch.channels, { id: user.id });
   if (adminStatus) {
     return _.merge({ admin: true }, adminStatus);
   }
