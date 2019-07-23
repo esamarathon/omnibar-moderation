@@ -16,7 +16,7 @@ export function twitchGet(url, headers, token, query) {
 
 export function twitchPost(url, headers, token, body) {
   if (!headers) headers = {};
-  headers['Client-ID'] = settings.twitch.clientID;
+  if (!headers['client-id']) headers['client-id'] = settings.twitch.clientID;
   if (token) headers.Authorization = `OAuth ${token}`;
   if (!headers.Accept) headers.Accept = 'application/vnd.twitchtv.v5+json';
   logger.debug(`Posting to ${url}`);
@@ -31,7 +31,7 @@ export async function twitchGetIDByName(userName) {
 }
 
 export async function twitchGQL(query, variables) {
-  return twitchPost('https://api.twitch.tv/gql', null, null, { query, variables, extensions: {} });
+  return twitchPost('https://api.twitch.tv/gql', { 'client-id': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }, null, { query, variables, extensions: {} });
 }
 
 
