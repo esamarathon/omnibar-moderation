@@ -47,7 +47,7 @@ export default class EventCollector extends EventEmitter {
           logger.debug('Test message received', message);
           this.handleTest(message);
         }
-      } else if (message.tags['user-id'] === '120560983') {
+      } else if (['120560983', '56714091'].includes(message.tags['user-id'])) {
         this.handleCrowdcontrol(message);
       }
     });
