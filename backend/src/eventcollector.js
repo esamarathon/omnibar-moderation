@@ -156,6 +156,7 @@ export default class EventCollector extends EventEmitter {
   }
 
   async handleCrowdcontrol(event) {
+    console.log('Handling crowd control');
     this.emit('event', {
       id: generateID(),
       provider: 'crowdcontrol',
