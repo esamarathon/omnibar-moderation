@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.get('/login', async (req, res, next) => {
   try {
     logger.debug('Logging in...');
-    const tokenResponse = await got.post('https://api.twitch.tv/kraken/oauth2/token', {
+    const tokenResponse = await got.post('https://id.twitch.tv/oauth2/token', {
       form: true,
       body: {
         client_id: settings.twitch.clientID,

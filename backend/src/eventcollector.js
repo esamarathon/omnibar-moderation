@@ -47,6 +47,8 @@ export default class EventCollector extends EventEmitter {
           logger.debug('Test message received', message);
           this.handleTest(message);
         }
+      } else if (message.tags['user-id'] === '120560983') {
+        this.handleCrowdcontrol(message);
       }
     });
 
@@ -136,6 +138,28 @@ export default class EventCollector extends EventEmitter {
       id: generateID(),
       provider: 'twitch',
       type: 'test',
+      message: event,
+      user: {
+        name: event.prefix.nick,
+        displayName: event.tags['display-name'],
+        id: event.tags['user-id'],
+        profilePic: await getTwitchProfilePic(event.tags['user-id'])
+      },
+      channel: {
+        id: `${event.tags['room-id']}`,
+        name: event.channel.replace('#', '')
+      },
+      decisions: [],
+      error: null,
+      sent: false
+    });
+  }
+
+  async handleCrowdcontrol(event) {
+    this.emit('event', {
+      id: generateID(),
+      provider: 'crowdcontrol',
+      type: 'crowdcontrol',
       message: event,
       user: {
         name: event.prefix.nick,
