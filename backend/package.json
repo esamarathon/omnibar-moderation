@@ -22,7 +22,7 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
-    "express-uws": "^3.0.1",
+    "express-ws": "^4.0.0",
     "got": "^8.3.1",
     "irc-prefix-parser": "^1.0.1",
     "iso8601-convert": "^1.0.0",

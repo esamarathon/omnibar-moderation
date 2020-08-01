@@ -114,9 +114,11 @@ export default {
         const data = JSON.parse(event.data);
         if (data.command === 'state') {
           Vue.set(this.state, 'state', data.data);
+          this.setTitle()
           console.log('State initiated');
         } else if (data.command === 'mutation') {
           this.state.apply(data.mutation);
+          this.setTitle()
         } else if (data.command === 'status') {
           if (data.error) {
             deleteCookie('om-jwt');
@@ -139,6 +141,23 @@ export default {
     logout () {
       deleteCookie('om-jwt');
       this.$router.push({name: 'Login'});
+    },
+    setTitle() {
+      const queue = this.state.state.moderationQueue
+      let count = 0;
+      for (let i=0; i < queue.length; i++) {
+        if(!queue[i].decisions.find(x=>{
+          return x.user.id === this.user.id
+        })) {
+          count++
+        }
+      }
+      if (count > 0) {
+        document.title = `[${count}] ESA Omnibar moderation tool`
+      } else {
+        document.title = `ESA Omnibar moderation tool`
+      }
+      
     }
   }
 };

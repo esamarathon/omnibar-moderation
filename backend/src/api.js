@@ -5,7 +5,7 @@ import http from 'http';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import expressWs from 'express-uws';
+import expressWs from 'express-ws';
 
 import logger from './logger';
 import settings from './settings';

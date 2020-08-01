@@ -1,6 +1,6 @@
 <template>
   <span class="chat-line">
-    <span v-for="token in tokens" :is="token.type" :data="token.data" :type="token.type"></span>
+    <span v-for="token in tokens" :is="token.type" :data="token.data" :type="token.type" :key="token.id"></span>
   </span>
 </template>
 
