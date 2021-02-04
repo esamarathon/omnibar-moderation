@@ -1,12 +1,14 @@
 {
   "scripts": {
     "backend": "cd backend && start cmd /k yarn dev",
-    "frontend": "cd frontend && start cmd /k yarn dev",
-    "dev": "yarn backend && yarn frontend",
     "build": "cd shared && yarn build && cd ../backend && yarn build && cd ../frontend && yarn build",
+    "dev": "yarn backend && yarn frontend",
+    "docker:backend": "docker build --pull --rm -f \"Dockerfile.backend\" -t docker.pkg.github.com/esamarathon/omnibar-moderation/omnibar-moderation:latest-backend \".\"",
+    "docker:frontend": "docker build --pull --rm -f \"Dockerfile.frontend\" -t docker.pkg.github.com/esamarathon/omnibar-moderation/omnibar-moderation:latest-frontend \".\"",
+    "frontend": "cd frontend && start cmd /k yarn dev",
     "install": "cd frontend && yarn install && cd ../backend && yarn install && cd ../shared && yarn install",
     "start": "cd backend/dist && node ./backend.js"
   },
-  "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {}
 }

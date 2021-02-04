@@ -1,14 +1,13 @@
-import _ from 'lodash';
 import { EventEmitter } from 'events';
-import Twitter from 'twitter';
-import got from 'got';
-import util from 'util';
 import fs from 'fs';
-
-import settings from './settings';
+import got from 'got';
+import _ from 'lodash';
+import Twitter from 'twitter';
+import util from 'util';
 import { generateID } from '../../shared/src/helpers';
 import IRCBot from './ircbot';
 import logger from './logger';
+import settings from './settings';
 import { twitchGet } from './twitchAPI';
 
 async function getBearerToken() {
@@ -231,6 +230,7 @@ export default class EventCollector extends EventEmitter {
         });
       });
 
+      fs.mkdirSync(settings.dataFolder, { recursive: true });
       fs.writeFile(`${settings.dataFolder}twitter.json`, JSON.stringify(this.twitterState), 'utf-8', err => {
         if (err) {
           throw err;

@@ -1,0 +1,15 @@
+FROM node:14-alpine as builder
+WORKDIR /home/node/app
+RUN mkdir -p ./frontend && mkdir -p ./shared
+COPY ./package*.json ./yarn.lock ./
+COPY ./frontend/package*.json ./frontend/yarn.lock ./frontend/
+COPY ./shared/package*.json ./shared/yarn.lock ./shared/
+RUN cd frontend && yarn install
+RUN cd frontend && yarn install && cd ../shared && yarn install
+COPY . ./
+RUN cd shared && yarn build && cd ../frontend && yarn build
+
+FROM caddy:2
+COPY ./Caddyfile /etc/caddy/Caddyfile
+COPY --from=builder /home/node/app/dist/frontend /usr/share/caddy
+EXPOSE 80

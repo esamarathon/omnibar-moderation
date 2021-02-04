@@ -1,0 +1,10 @@
+.git/
+**/dist/
+**/node_modules/
+.gitignore
+Dockerfile.*
+.dockerignore
+docker-compose.yaml
+docker-compose.local.yaml
+settings.json
+settings.*.json
