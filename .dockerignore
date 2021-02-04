@@ -6,5 +6,4 @@ Dockerfile.*
 .dockerignore
 docker-compose.yaml
 docker-compose.local.yaml
-settings.json
-settings.*.json
+settings.backend.json
