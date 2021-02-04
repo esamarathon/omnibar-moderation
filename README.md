@@ -52,3 +52,28 @@ Where the repeater endpoint points to where the [socket repeater](https://github
  5. run `yarn build`
  6. serve static files from `./dist/frontend`
  7. add a systemd service that runs `yarn start`
+
+## Docker Usage
+
+Dockerfiles are available as `Dockerfile.backend` and `Dockerfile.frontend`; we have split it up into 2 different builds for ease of use. Our own Docker images are available under "Packages" (tagged `latest-frontend` and `latest-backend` respectively).
+
+For the backend, our image will work but you will need to supply your own `settings.backend.json` file either via volume mounting or Docker Configs, mounted as `/home/node/app/settings.backend.json`. You also need to mount a volume that stores some persistent files at `/home/node/app/backend/dist/state`.
+
+The frontend requires being built yourself as some variables are hardcoded at build time, otherwise they will use the defaults, these settings specifically:
+
+```
+{
+  "twitch": {
+    "clientID": "<your client ID>"
+  },
+  "api": {
+    "baseurl": "http://127.0.0.1:8081/"
+  }
+}
+```
+
+To do this, just create a `settings.json` file in the root directory before you build.
+
+You may also need to change the public path the assets are served from, which is currently located at [frontend/config/index.js#L53](frontend/config/index.js#L53), currently set to "`/mods/`"
+
+If you wish to use docker-compose, an example [docker-compose.yaml](docker-compose.yaml) file has been supplied that may help.
