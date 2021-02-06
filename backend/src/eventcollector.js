@@ -201,13 +201,13 @@ export default class EventCollector extends EventEmitter {
 
   async pollTwitter() {
     try {
-      let searchResults = [];
-      for (const term in settings.twitter.searchTerms) {
-        const results = await this.twitter.get('search/tweets', {
+      const searchPromises = settings.twitter.searchTerms.map((term) => {
+        return this.twitter.get('search/tweets', {
           q: term, count: 100, result_type: 'recent', tweet_mode: 'extended'
         });
-        searchResults.push(...results);
-      }
+      });
+      let searchResults = await Promise.all(searchPromises);
+      searchResults = searchResults.reduce((prev, curr) => { return prev.concat(curr.statuses); }, []);
       searchResults = _.uniqBy(searchResults, 'id_str');
       const blockedUsers = settings.twitter.blocked.map((str) => str.toLowerCase());
       let tweets = _.filter(searchResults, tweet => !blockedUsers.includes(tweet.user.screen_name.toLowerCase()) && !tweet.retweeted_status);

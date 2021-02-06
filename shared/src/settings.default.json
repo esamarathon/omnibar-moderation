@@ -50,7 +50,8 @@
     "pollRate": 200000,
     "tweets": 5,
     "searchTerms": [
-      "@esamarathon"
+      "@esamarathon",
+      "#ESASummer18"
     ],
     "blocked": [
       "esamarathon",
