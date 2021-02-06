@@ -7,7 +7,7 @@ import defaultArgs from '../../shared/src/settings.default.json';
 // Limited amount of settings are also exposed via environment variables.
 const envVarArgs = {
   twitter: {
-    hashtag: process.env.TWITTER_HASHTAG,
+    searchTerms: process.env.TWITTER_SEARCHTERMS?.split(','),
   }
 };
 

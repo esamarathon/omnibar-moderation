@@ -60,7 +60,7 @@ Dockerfiles are available as `Dockerfile.backend` and `Dockerfile.frontend`; we 
 For the backend, our image will work but you will need to supply your own `settings.backend.json` file either via volume mounting or Docker Configs, mounted as `/home/node/app/settings.backend.json`. You also need to mount a volume that stores some persistent files at `/home/node/app/backend/dist/state`. There are also a limited amount of settings that you can supply via environment variables:
 ```
 environment:
-  - TWITTER_HASHTAG=#ESASummer18
+  - TWITTER_SEARCHTERMS=@esamarathon,#ESASummer18
 ```
 
 The frontend requires being built yourself as some variables are hardcoded at build time, otherwise they will use the defaults, these settings specifically:
