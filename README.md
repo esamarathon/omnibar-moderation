@@ -57,7 +57,11 @@ Where the repeater endpoint points to where the [socket repeater](https://github
 
 Dockerfiles are available as `Dockerfile.backend` and `Dockerfile.frontend`; we have split it up into 2 different builds for ease of use. Our own Docker images are available under "Packages" (tagged `latest-frontend` and `latest-backend` respectively).
 
-For the backend, our image will work but you will need to supply your own `settings.backend.json` file either via volume mounting or Docker Configs, mounted as `/home/node/app/settings.backend.json`. You also need to mount a volume that stores some persistent files at `/home/node/app/backend/dist/state`.
+For the backend, our image will work but you will need to supply your own `settings.backend.json` file either via volume mounting or Docker Configs, mounted as `/home/node/app/settings.backend.json`. You also need to mount a volume that stores some persistent files at `/home/node/app/backend/dist/state`. There are also a limited amount of settings that you can supply via environment variables:
+```
+environment:
+  - TWITTER_HASHTAG=#ESASummer18
+```
 
 The frontend requires being built yourself as some variables are hardcoded at build time, otherwise they will use the defaults, these settings specifically:
 

@@ -4,6 +4,8 @@ services:
   backend:
     image: docker.pkg.github.com/esamarathon/omnibar-moderation/omnibar-moderation:latest-backend
     restart: always
+    environment:
+      - TWITTER_HASHTAG=#ESASummer18
     volumes:
       - ./backend/dist/state:/home/node/app/backend/dist/state
     ports:
