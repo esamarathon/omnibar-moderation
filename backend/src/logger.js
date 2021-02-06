@@ -6,7 +6,7 @@ const logger = pino({
   level: settings.log.level,
   prettyPrint: {
     levelFirst: true,
-    forceColor: true
+    colorize: true
   }
 });
 

@@ -1,9 +1,9 @@
 FROM node:14-alpine as builder
 WORKDIR /home/node/app
 RUN mkdir -p ./frontend && mkdir -p ./shared
-COPY ./package*.json ./yarn.lock ./
-COPY ./frontend/package*.json ./frontend/yarn.lock ./frontend/
-COPY ./shared/package*.json ./shared/yarn.lock ./shared/
+COPY ./package*.json ./
+COPY ./frontend/package*.json ./frontend/
+COPY ./shared/package*.json ./shared/
 RUN cd frontend && yarn install
 RUN cd frontend && yarn install && cd ../shared && yarn install
 COPY . ./
