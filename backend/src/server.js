@@ -1,18 +1,17 @@
 import fs from 'fs';
-import _ from 'lodash';
 import got from 'got';
-
-
+import _ from 'lodash';
+import { getAt } from '../../shared/src/helpers';
+import State from '../../shared/src/state';
+import { app } from './api';
+import Client from './client';
+import EventCollector from './eventcollector';
 import logger from './logger';
 import settings from './settings';
-import Client from './client';
-import { app } from './api';
-import State from '../../shared/src/state';
-import EventCollector from './eventcollector';
-import { getAt } from '../../shared/src/helpers';
 
 const persistentPath = `${settings.dataFolder}state.json`;
 function persistState(data) {
+  fs.mkdirSync(settings.dataFolder, { recursive: true });
   fs.writeFile(persistentPath, JSON.stringify(data), 'utf-8', err => {
     if (err) logger.error(err);
   });

@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import got from 'got';
-
+import _ from 'lodash';
+import { throttleAsync } from '../../shared/src/helpers';
 import logger from './logger';
 import settings from './settings';
-import { throttleAsync } from '../../shared/src/helpers';
+
 
 export function twitchGet(url, headers, token, query) {
   if (!headers) headers = {};
@@ -31,7 +31,7 @@ export async function twitchGetIDByName(userName) {
 }
 
 export async function twitchGQL(query, variables) {
-  return twitchPost('https://api.twitch.tv/gql', { 'client-id': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }, null, { query, variables, extensions: {} });
+  return twitchPost('https://gql.twitch.tv/gql', { 'client-id': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }, null, { query, variables, extensions: {} });
 }
 
 

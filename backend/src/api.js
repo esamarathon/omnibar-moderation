@@ -1,16 +1,14 @@
-import _ from 'lodash';
-import url from 'url';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import expressWs from 'express-ws';
 import got from 'got';
 import http from 'http';
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import expressWs from 'express-ws';
-
+import url from 'url';
+import { generateToken } from './auth';
 import logger from './logger';
 import settings from './settings';
 import { twitchGet } from './twitchAPI';
-import { generateToken } from './auth';
 
 const app = express();
 const server = http.Server(app);
@@ -43,8 +41,7 @@ app.get('/login', async (req, res, next) => {
       const jwt = generateToken(token, { id: userResponse.body._id, login: userResponse.body.name, displayName: userResponse.body.display_name });
 
       res.cookie('om-jwt', jwt);
-
-      res.redirect(url.resolve(settings.frontend.baseurl, url.parse(req.query.state || '/').path));
+      res.redirect(settings.frontend.baseurl);
     } else {
       res.status(402).end('Invalid authentication');
     }
