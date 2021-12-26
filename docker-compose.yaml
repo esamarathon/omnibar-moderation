@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   backend:
-    image: docker.pkg.github.com/esamarathon/omnibar-moderation/omnibar-moderation:latest-backend
+    image: ghcr.io/esamarathon/omnibar-moderation:latest-backend
     restart: always
     environment:
       - TWITTER_SEARCHTERMS=@esamarathon,#ESASummer18
@@ -11,7 +11,7 @@ services:
     ports:
       - 8081:8081
   frontend:
-    image: docker.pkg.github.com/esamarathon/omnibar-moderation/omnibar-moderation:latest-frontend
+    image: ghcr.io/esamarathon/omnibar-moderation:latest-frontend
     restart: always
     ports:
       - 8080:80
