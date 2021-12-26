@@ -1,21 +1,21 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel -d dist src --source-maps --copy-files"
+  },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "minimist": "^1.2.0",
+    "lodash": "^4.17.21",
+    "minimist": "^1.2.5",
     "path": "^0.12.7"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.0.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
-  },
-  "scripts": {
-    "build": "babel -d dist src --source-maps --copy-files"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.25.3"
   }
 }
