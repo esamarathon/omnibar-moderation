@@ -35,16 +35,12 @@ app.get('/login', async (req, res, next) => {
       json: true
     });
     const token = tokenResponse.body.access_token;
-    const authResponse = await twitchGet('https://api.twitch.tv/kraken/', null, token);
-    if (authResponse.body.token.valid) {
-      const userResponse = await twitchGet(`https://api.twitch.tv/kraken/users/${authResponse.body.token.user_id}`, null, token);
-      const jwt = generateToken(token, { id: userResponse.body._id, login: userResponse.body.name, displayName: userResponse.body.display_name });
+    const userResponse = await twitchGet('https://api.twitch.tv/helix/users', null, token);
+    const userData = userResponse.body.data[0];
+    const jwt = generateToken(token, { id: userData.id, login: userData.login, displayName: userData.display_name });
 
-      res.cookie('om-jwt', jwt);
-      res.redirect(settings.frontend.baseurl);
-    } else {
-      res.status(402).end('Invalid authentication');
-    }
+    res.cookie('om-jwt', jwt);
+    res.redirect(settings.frontend.baseurl);
   } catch (err) { logger.error(err); next(err); }
 });
 

@@ -7,9 +7,8 @@ import settings from './settings';
 
 export function twitchGet(url, headers, token, query) {
   if (!headers) headers = {};
-  headers['Client-ID'] = settings.twitch.clientID;
-  if (token) headers.Authorization = `OAuth ${token}`;
-  if (!headers.Accept) headers.Accept = 'application/vnd.twitchtv.v5+json';
+  if (!headers['client-id']) headers['client-id'] = settings.twitch.clientID;
+  if (token) headers.Authorization = `Bearer ${token}`;
   logger.debug(`Getting ${url}`);
   return got.get(url, { headers, query, json: true });
 }
@@ -17,16 +16,16 @@ export function twitchGet(url, headers, token, query) {
 export function twitchPost(url, headers, token, body) {
   if (!headers) headers = {};
   if (!headers['client-id']) headers['client-id'] = settings.twitch.clientID;
-  if (token) headers.Authorization = `OAuth ${token}`;
-  if (!headers.Accept) headers.Accept = 'application/vnd.twitchtv.v5+json';
+  if (token) headers.Authorization = `Bearer ${token}`;
   logger.debug(`Posting to ${url}`);
   return got.post(url, { headers, body, json: true });
 }
+
 const userIDByName = {};
 export async function twitchGetIDByName(userName) {
   if (userIDByName[userName]) return userIDByName[userName];
-  const userResponse = await twitchGet(`https://api.twitch.tv/kraken/users/?login=${userName}`);
-  userIDByName[userName] = userResponse.body.users[0]._id;
+  const userResponse = await twitchGet(`https://api.twitch.tv/helix/users?login=${userName}`);
+  userIDByName[userName] = userResponse.body.data[0].id;
   return userIDByName[userName];
 }
 

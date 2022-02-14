@@ -70,7 +70,7 @@ export default {
       try {
         const userResult = await getUser(this.user);
         this.user.displayName = userResult.display_name;
-        this.user.logo = userResult.logo;
+        this.user.logo = userResult.profile_image_url;
         console.log(this.user);
         return userResult;
       } catch (err) {
