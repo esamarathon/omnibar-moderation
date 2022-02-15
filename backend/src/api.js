@@ -5,7 +5,7 @@ import expressWs from 'express-ws';
 import got from 'got';
 import http from 'http';
 import url from 'url';
-import { generateToken } from './auth';
+import { generateToken, decodeToken } from './auth';
 import logger from './logger';
 import settings from './settings';
 import { twitchGet } from './twitchAPI';
@@ -54,6 +54,42 @@ app.get('/logout', (req, res) => {
     res.clearCookie('om-jwt');
   } else {
     res.status(400).jsonp({ error: 'Missing, mismatching or invalid token' });
+  }
+});
+
+// get user api
+app.get('/get_user/:by/:value', async (req, res) => {
+  if (req.cookies && req.cookies['om-jwt']) {
+    const frontendUrl = url.parse(settings.frontend.baseurl);
+    const allowedOrigin = `${frontendUrl.protocol}//${frontendUrl.host}`;
+    res.header('Access-Control-Allow-Origin', allowedOrigin);
+    res.header('Access-Control-Allow-Credentials', true);
+    const payload = decodeToken(req.cookies['om-jwt']);
+    if (!payload) {
+        res.status(400).json({ error: 'Missing, mismatching or invalid token' });
+        return;
+    }
+
+    const access_token = payload.auth.token;
+
+    let userResponse = {};
+    if (req.params.by == 'id') {
+        userResponse = await twitchGet('https://api.twitch.tv/helix/users?id=' + req.params.value, null, token);
+    } else if (req.params.by == 'name' || req.params.by == 'login') {
+        userResponse = await twitchGet('https://api.twitch.tv/helix/users?login=' + req.params.value, null, token);
+    } else {
+        res.status(400).json({ error: 'Invalid request' });
+        return;
+    }
+
+    if (!userResponse.body.data) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+
+    res.status(200).json(userResponse.body.data[0]);
+  } else {
+    res.status(400).json({ error: 'Missing, mismatching or invalid token' });
   }
 });
 
