@@ -22,7 +22,7 @@ export function twitchGet (endpoint, params, token, headers) {
 
 function normalizeUser (user) {
   const userQuery = {};
-  if (typeof user === 'string') userQuery.name = user;
+  if (typeof user === 'string') userQuery.login = user;
   else if (user.id) userQuery.id = user.id;
   else if (user.name || user.login) userQuery.login = user.name || user.login;
   else throw new Error('Need user name or user ID');
