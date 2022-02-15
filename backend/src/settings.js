@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import backendArgs from '../../settings.backend.json';
-import extendArgs from '../../settings.json';
 import defaultArgs from '../../shared/src/settings.default.json';
 
 
@@ -11,6 +10,6 @@ const envVarArgs = {
   }
 };
 
-const settings = _.merge(defaultArgs, extendArgs, backendArgs, envVarArgs);
+const settings = _.merge(defaultArgs, backendArgs, envVarArgs);
 
 export default settings;
