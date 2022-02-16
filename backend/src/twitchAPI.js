@@ -7,7 +7,7 @@ import settings from './settings';
 
 var cachedAppToken = null;
 export async function twitchAppToken() {
-  if (cachedAppToken && cachedAppToken['expires'].getTime() < Date.now())
+  if (cachedAppToken && cachedAppToken['expires'].getTime() > Date.now())
     return cachedAppToken['access_token'];
 
   logger.info('Refreshing twitch client bearer token');
