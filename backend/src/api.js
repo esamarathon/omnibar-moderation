@@ -35,7 +35,7 @@ app.get('/login', async (req, res, next) => {
       json: true
     });
     const token = tokenResponse.body.access_token;
-    const userResponse = await twitchGet('https://api.twitch.tv/helix/users', null, token);
+    const userResponse = await twitchGet('https://api.twitch.tv/helix/users', {}, token);
     const userData = userResponse.body.data[0];
     const jwt = generateToken(token, { id: userData.id, login: userData.login, displayName: userData.display_name });
 
@@ -70,13 +70,11 @@ app.get('/get_user/:by/:value', async (req, res) => {
         return;
     }
 
-    const access_token = payload.auth.token;
-
     let userResponse = {};
     if (req.params.by == 'id') {
-        userResponse = await twitchGet('https://api.twitch.tv/helix/users?id=' + req.params.value, null, access_token);
+        userResponse = await twitchGet('https://api.twitch.tv/helix/users', {}, null, { id: req.params.value });
     } else if (req.params.by == 'name' || req.params.by == 'login') {
-        userResponse = await twitchGet('https://api.twitch.tv/helix/users?login=' + req.params.value, null, access_token);
+        userResponse = await twitchGet('https://api.twitch.tv/helix/users', {}, null, { login: req.params.value });
     } else {
         res.status(400).json({ error: 'Invalid request' });
         return;
