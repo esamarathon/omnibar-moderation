@@ -22,7 +22,7 @@ async function getBearerToken() {
 
 async function getTwitchProfilePic(userID) {
   try {
-    return (await twitchGet(`https://api.twitch.tv/helix/users?id=${userID}`)).body.data[0].profile_image_url;
+    return (await twitchGet('https://api.twitch.tv/helix/users', {}, null, { id: userID })).body.data[0].profile_image_url;
   } catch (err) {
     console.error(err);
     logger.error(err);
