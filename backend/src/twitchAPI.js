@@ -10,6 +10,8 @@ export async function twitchAppToken() {
   if (cachedAppToken && cachedAppToken['expires'].getTime() < Date.now())
     return cachedAppToken['access_token'];
 
+  logger.info('Refreshing twitch client bearer token');
+
   const tokenResponse = await got.post('https://id.twitch.tv/oauth2/token', {
     form: true,
     body: {
