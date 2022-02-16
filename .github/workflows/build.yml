@@ -29,15 +29,6 @@ jobs:
     - name: Setup Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    # Set Docker layer cache options
-    - name: Set Docker cache
-      uses: actions/cache@v2
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-
     # Login to the GitHub container registry
     - name: Login to GitHub container registry
       uses: docker/login-action@v1
@@ -55,8 +46,8 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository }}/backend:latest
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
     # Build and push the "latest" Docker image for the frontend to GitHub
     - name: Build and push Docker image for frontend (latest)
@@ -67,8 +58,8 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository }}/frontend:latest
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
         build-args: |
           BUILD_TARGET=prod
 
@@ -81,15 +72,7 @@ jobs:
         push: true
         tags: |
           ghcr.io/${{ github.repository }}/frontend:test
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
         build-args: |
           BUILD_TARGET=test
-
-    # "Temporary" fix for a cache issue
-    # https://github.com/docker/build-push-action/issues/252
-    # https://github.com/moby/buildkit/issues/1896
-    - name: Move Docker cache
-      run: |
-        rm -rf /tmp/.buildx-cache
-        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
