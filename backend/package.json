@@ -24,7 +24,6 @@
     "pino": "^6.13.3",
     "pino-pretty": "4.8.0",
     "through2": "^2.0.5",
-    "twitter": "^1.7.1",
     "uws": "^10.148.1"
   },
   "devDependencies": {

@@ -4,8 +4,6 @@ services:
   backend:
     image: ghcr.io/esamarathon/omnibar-moderation:latest-backend
     restart: always
-    environment:
-      - TWITTER_SEARCHTERMS=@esamarathon,#ESASummer18
     volumes:
       - ./backend/dist/state:/home/node/app/backend/dist/state
     ports:

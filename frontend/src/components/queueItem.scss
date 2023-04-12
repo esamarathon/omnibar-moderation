@@ -1,5 +1,5 @@
 .queue-item {
-  background-color: rgba(255,255,255,0.2);
+  background-color: rgba(255, 255, 255, 0.2);
   margin-bottom: 8px;
   min-height: 111px;
 
@@ -15,6 +15,7 @@
       margin-right: 8px;
     }
   }
+
   .sending-info {
     background-color: rgb(93, 144, 255);
     padding: 0 16px;
@@ -22,6 +23,7 @@
     .sent {
       display: none;
     }
+
     .sending-progress {
       display: flex;
     }
@@ -51,27 +53,33 @@
     &-sub {
       background-color: orange;
     }
+
     &-cheer {
       background-color: darkcyan;
     }
+
     &-test {
       background-color: #222;
     }
+
     &-resub {
       background-color: #900;
     }
+
     &-subgift {
       background-color: #090;
     }
+
     &-tweet {
       background-color: #1DA1F2;
     }
+
     &-crowdcontrol {
       background-color: #cc3;
     }
   }
 
-  .item-channel, .item-twitter-stats {
+  .item-channel {
     height: 100%;
     vertical-align: middle;
     padding: 0 8px;
@@ -129,6 +137,7 @@
     .sent {
       display: flex;
     }
+
     .sending-progress {
       display: none;
     }
@@ -137,17 +146,4 @@
 
 .md-icon.inline {
   vertical-align: text-bottom;
-}
-
-.item-twitter-stats {
-  > span {
-    margin-right: 4px;
-  }
-
-  .favorites, .favorites .md-icon.md-theme-default.md-icon-font {
-    color: rgb(224, 36, 94);
-  }
-  .retweets, .retweets .md-icon.md-theme-default.md-icon-font {
-    color: rgb(23, 191, 99);
-  }
 }

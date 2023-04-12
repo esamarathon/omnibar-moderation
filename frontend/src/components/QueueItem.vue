@@ -8,10 +8,6 @@
         <div class="item-channel flex-none layout-row layout-center-center" v-if="itemInfo.channel">
           <span class="flex-none"><a :href="'https://twitch.tv/'+itemInfo.channel.name">twitch.tv/{{itemInfo.channel.name}}</a></span>
         </div>
-        <div class="item-twitter-stats flex-none layout-row layout-center-center" v-if="itemInfo.provider === 'twitter'">
-          <span class="flex-none retweets"><md-icon class="inline">repeat</md-icon>{{itemInfo.message.retweet_count}}</span>
-          <span class="flex-none favorites"><md-icon class="inline">favorite</md-icon>{{itemInfo.message.favorite_count}}</span>
-        </div>
       </div>
       <div class="pushing-error flex-none layout-row layout-center-center" v-if="itemInfo.error">
         <md-icon>error</md-icon> Event could not be pushed: {{itemInfo.error}}
