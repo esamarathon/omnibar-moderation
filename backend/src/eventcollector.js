@@ -1,24 +1,10 @@
 import { EventEmitter } from 'events';
-import fs from 'fs';
-import got from 'got';
 import _ from 'lodash';
-import Twitter from 'twitter';
-import util from 'util';
 import { generateID } from '../../shared/src/helpers';
 import IRCBot from './ircbot';
 import logger from './logger';
 import settings from './settings';
 import { twitchGet } from './twitchAPI';
-
-async function getBearerToken() {
-  return JSON.parse((await got.post('https://api.twitter.com/oauth2/token', {
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${settings.twitter.consumerKey}:${settings.twitter.consumerSecret}`).toString('base64')}`,
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    },
-    query: { grant_type: 'client_credentials' }
-  })).body).access_token;
-}
 
 async function getTwitchProfilePic(userID) {
   try {
@@ -59,53 +45,6 @@ export default class EventCollector extends EventEmitter {
       logger.debug('Sub received!', message);
       if (settings.twitch[message.tags['msg-id']]) this.handleUsernotice(message);
     });
-
-    this.twitter = null;
-    // prevents posts from being emit more than once.
-    this.twitterState = {
-      emittedTweets: {}
-    };
-    this.createTwitterApp();
-  }
-
-  async createTwitterApp() {
-    if (!settings.twitter.consumerSecret || !settings.twitter.consumerKey) {
-      logger.warn('No twitter configuration supplied, twitter features will be unavailable.');
-      return;
-    }
-    try {
-      // get bearer token
-      const persistentPosts = util.promisify(fs.readFile)(`${settings.dataFolder}twitter.json`).then(data => {
-        this.twitterState = JSON.parse(data);
-      }).catch(err => {
-        logger.warn('Couldnt load persistent twitter state:', err);
-      });
-
-      const bearerToken = settings.twitter.bearerToken || await getBearerToken();
-
-      logger.debug('Twitter access info: ', {
-        consumer_key: settings.twitter.consumerKey,
-        consumer_secret: settings.twitter.consumerSecret,
-        bearer_token: bearerToken
-      });
-
-      this.twitter = new Twitter({
-        consumer_key: settings.twitter.consumerKey,
-        consumer_secret: settings.twitter.consumerSecret,
-        bearer_token: bearerToken
-      });
-
-      // this should be done by now, but wait for it regardless.
-      await persistentPosts;
-
-      this.pollTwitter();
-      setInterval(() => {
-        this.pollTwitter();
-      }, settings.twitter.pollRate);
-    } catch (err) {
-      console.error(err);
-      logger.error(err);
-    }
   }
 
   async handleCheer(event) {
@@ -197,53 +136,5 @@ export default class EventCollector extends EventEmitter {
       error: null,
       sent: false
     });
-  }
-
-  async pollTwitter() {
-    try {
-      const searchPromises = settings.twitter.searchTerms.map((term) => {
-        return this.twitter.get('search/tweets', {
-          q: term, count: 100, result_type: 'recent', tweet_mode: 'extended'
-        });
-      });
-      let searchResults = await Promise.all(searchPromises);
-      searchResults = searchResults.reduce((prev, curr) => { return prev.concat(curr.statuses); }, []);
-      searchResults = _.uniqBy(searchResults, 'id_str');
-      const blockedUsers = settings.twitter.blocked.map((str) => str.toLowerCase());
-      let tweets = _.filter(searchResults, tweet => !blockedUsers.includes(tweet.user.screen_name.toLowerCase()) && !tweet.retweeted_status);
-      tweets = _.sortBy(tweets, [tweet => (-tweet.favorite_count - tweet.retweet_count)]).slice(0, settings.twitter.tweets);
-      logger.debug('Sorted tweets:', tweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
-      tweets = _.filter(tweets, status => !this.twitterState.emittedTweets[status.id_str]);
-      logger.debug('Filtered tweets:', tweets.map(tweet => _.pick(tweet, ['text', 'user.name', 'favorite_count', 'retweet_count'])));
-
-      _.each(tweets, async tweet => {
-        this.twitterState.emittedTweets[tweet.id_str] = true;
-        this.emit('event', {
-          id: generateID(),
-          provider: 'twitter',
-          type: 'tweet',
-          message: tweet,
-          user: {
-            name: tweet.user.screen_name,
-            displayName: tweet.user.name,
-            id: tweet.user.id_str,
-            profilePic: tweet.user.profile_image_url_https
-          },
-          decisions: [],
-          error: null,
-          sent: false
-        });
-      });
-
-      fs.mkdirSync(settings.dataFolder, { recursive: true });
-      fs.writeFile(`${settings.dataFolder}twitter.json`, JSON.stringify(this.twitterState), 'utf-8', err => {
-        if (err) {
-          throw err;
-        }
-      });
-    } catch (err) {
-      console.error(err);
-      logger.error(err);
-    }
   }
 }
